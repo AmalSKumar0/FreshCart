@@ -1,0 +1,646 @@
+{% extends 'seller/baseDash.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+<div class="main-wrapper">
+  <!-- navbar vertical -->
+  <!-- navbar -->
+<nav class="navbar-vertical-nav d-none d-xl-block">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="../index.html" class="navbar-brand">
+ <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link  active " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="#"
+     data-bs-toggle="collapse"
+     data-bs-target="#navCategoriesOrders"
+     aria-expanded="false"
+     aria-controls="navCategoriesOrders"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+   <!-- <div id="navCategoriesOrders" class="collapse " data-bs-parent="#sideNavbar">
+     <ul class="nav flex-column">
+       <li class="nav-item">
+         <a class="nav-link " href="order-list.html">List</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link " href="order-single.html">Single</a>
+       </li>
+     </ul>
+   </div> -->
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="#"
+     data-bs-toggle="collapse"
+     data-bs-target="#navCustomer"
+     aria-expanded="false"
+     aria-controls="navCustomer"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+       <span class="badge bg-light-success text-dark-success ms-2">New</span>
+     </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="reviews.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</nav>
+
+<nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
+<div class="navbar-vertical">
+<div class="px-4 py-5 d-flex justify-content-between align-items-center">
+<a href="../index.html" class="navbar-brand">
+ <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+</a>
+<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column">
+ <li class="nav-item">
+   <a class="nav-link " href="index.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span>Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link  active " href="products.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="categories.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
+       <span class="nav-link-text">Categories</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+   <div id="navOrders" class="collapse " data-bs-parent="#sideNavbar">
+     <ul class="nav flex-column">
+       <li class="nav-item">
+         <a class="nav-link " href="order-list.html">List</a>
+       </li>
+       <!-- Nav item -->
+       <li class="nav-item">
+         <a class="nav-link " href="order-single.html">Single</a>
+       </li>
+     </ul>
+   </div>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="vendor-grid.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-shop"></i></span>
+       <span class="nav-link-text">Sellers / Vendors</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="customers.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="reviews.html">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Site Settings</span>
+   <span class="badge bg-light-info text-dark-info">Coming Soon</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
+       <span class="nav-link-text">Blog</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-images"></i></span>
+       <span class="nav-link-text">Media</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-gear"></i></span>
+       <span class="nav-link-text">Store Settings</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Support</span>
+   <span class="badge bg-light-info text-dark-info">Coming Soon</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-headphones"></i></span>
+       <span class="nav-link-text">Support Ticket</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-question-circle"></i></span>
+       <span class="nav-link-text">Help Center</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-infinity"></i></span>
+       <span class="nav-link-text">How FreshCart Works</span>
+     </div>
+   </a>
+ </li>
+
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Our Apps</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-apple"></i></span>
+       <span class="nav-link-text">Apple Store</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link disabled" href="#!">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-google-play"></i></span>
+       <span class="nav-link-text">Google Play Store</span>
+     </div>
+   </a>
+ </li>
+ <li id="navMenuLevel" class="collapse " data-bs-parent="#sideNavbar">
+   <ul class="nav flex-column">
+     <li class="nav-item">
+       <a
+         class="nav-link "
+         href="#"
+         data-bs-toggle="collapse"
+         data-bs-target="#navMenuLevelSecond2"
+         aria-expanded="false"
+         aria-controls="navMenuLevelSecond2"
+       >
+         Two Level
+       </a>
+       <div id="navMenuLevelSecond2" class="collapse" data-bs-parent="#navMenuLevel">
+         <ul class="nav flex-column">
+           <li class="nav-item">
+             <a class="nav-link " href="#">NavItem 1</a>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link " href="#">NavItem 2</a>
+           </li>
+         </ul>
+       </div>
+     </li>
+     <li class="nav-item">
+       <a
+         class="nav-link  collapsed "
+         href="#"
+         data-bs-toggle="collapse"
+         data-bs-target="#navMenuLevelThree2"
+         aria-expanded="false"
+         aria-controls="navMenuLevelThree2"
+       >
+         Three Level
+       </a>
+       <div id="navMenuLevelThree2" class="collapse " data-bs-parent="#navMenuLevel">
+         <ul class="nav flex-column">
+           <li class="nav-item">
+             <a
+               class="nav-link  collapsed "
+               href="#"
+               data-bs-toggle="collapse"
+               data-bs-target="#navMenuLevelThree3"
+               aria-expanded="false"
+               aria-controls="navMenuLevelThree3"
+             >
+               NavItem 1
+             </a>
+             <div id="navMenuLevelThree3" class="collapse collapse " data-bs-parent="#navMenuLevelThree">
+               <ul class="nav flex-column">
+                 <li class="nav-item">
+                   <a class="nav-link " href="#">NavChild Item 1</a>
+                 </li>
+               </ul>
+             </div>
+           </li>
+           <li class="nav-item">
+             <a class="nav-link " href="#">Nav Item 2</a>
+           </li>
+         </ul>
+       </div>
+     </li>
+   </ul>
+ </li>
+</ul>
+</div>
+</div>
+</nav> 
+<!-- main -->
+<main class="main-content-wrapper">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row mb-8">
+      <div class="col-md-12">
+        <div class="d-md-flex justify-content-between align-items-center">
+          <!-- page header -->
+          <div>
+            <h2>Add New Product</h2>
+            <!-- breacrumb -->
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                  <a href="#" class="text-inherit">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="#"  class="text-inherit active">Products</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Add New Product
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <!-- button -->
+          <div>
+            <a href="{% url 'allProducts' %}" class="btn btn-light"
+              >Back to Product</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- row -->
+    <form action="{% url 'add_product' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="row">
+        <div class="col-lg-8 col-12">
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <h4 class="mb-4 h5">Product Information</h4>
+              <div class="row">
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Product name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="pname"
+                    placeholder="Product Name"
+                    required
+                  />
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Product Category</label>
+                  <select name="category" class="form-select">
+                    <option selected>Product Category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Stock</label>
+                  <input
+                    type="number"
+                    name="stock"
+                    class="form-control"
+                    placeholder="stock"
+                    required
+                  />
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Brand</label>
+                  <input
+                    type="text"
+                    name="brand"
+                    class="form-control"
+                    placeholder="Brand"
+                    required
+                  />
+                </div>
+                <div>
+                  <div class="mb-3 col-lg-12 mt-5">
+                    <!-- heading -->
+                    <h4 class="mb-3 h5">Product Images</h4>
+                    <style>
+                      .upload-section {
+                        display: flex;
+                        gap: 20px;
+                      }
+
+                      .upload-box {
+                        width: 150px;
+                        height: 150px;
+                        border: 2px dashed #ccc;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        position: relative;
+                        background-size: cover;
+                        background-position: center;
+                      }
+
+                      .upload-box input {
+                        position: absolute;
+                        opacity: 0;
+                        width: 100%;
+                        height: 100%;
+                        cursor: pointer;
+                      }
+
+                      input[type="text"],
+                      input[type="number"],
+                      textarea,
+                      select {
+                        width: 100%;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        border-radius: 4px;
+                      }
+                    </style>
+                    <div class="upload-section">
+                      <div class="upload-box" id="box1">
+                        <span>Upload</span>
+                        <input
+                          type="file"
+                          name="image1"
+                          accept="image/*"
+                          required
+                          onchange="previewImage(event, 'box1')"
+                        />
+                      </div>
+                      <div class="upload-box" id="box2">
+                        <span>Upload</span>
+                        <input
+                          type="file"
+                          name="image2"
+                          accept="image/*"
+                          required
+                          onchange="previewImage(event, 'box2')"
+                        />
+                      </div>
+                      <div class="upload-box" id="box3">
+                        <span>Upload</span>
+                        <input
+                          type="file"
+                          name="image3"
+                          accept="image/*"
+                          required
+                          onchange="previewImage(event, 'box3')"
+                        />
+                      </div>
+                      <div class="upload-box" id="box4">
+                        <span>Upload</span>
+                        <input
+                          type="file"
+                          name="image4"
+                          accept="image/*"
+                          required
+                          onchange="previewImage(event, 'box4')"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-12 mt-5">
+                  <h4 class="mb-3 h5">Product Descriptions</h4>
+                  <input
+                    type="text"
+                    name="description"
+                    class="form-control"
+                    placeholder="Product Descriptions"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <!-- input -->
+              <div class="form-check form-switch mb-4">
+                <input
+                  name="available"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchStock"
+                  checked
+                />
+                <label class="form-check-label" for="flexSwitchStock"
+                  >Is available</label
+                >
+              </div>
+              <!-- input -->
+              <div>
+                <div class="mb-3">
+                  <label class="form-label">Product Code</label>
+                  <input
+                    type="text"
+                    name="product_code"
+                    class="form-control"
+                    placeholder="Enter Product Title"
+                  />
+                </div>
+                <!-- input -->
+
+                <!-- input -->
+                <div class="mb-3">
+                  <label class="form-label" id="productSKU">Ingredient</label>
+                  <br />
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="inlineRadioOptions"
+                      id="inlineRadio1"
+                      value="veg"
+                      checked
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >Vegetarian</label
+                    >
+                  </div>
+                  <!-- input -->
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="inlineRadioOptions"
+                      id="inlineRadio2"
+                      value="non-veg"
+                    />
+                    <label class="form-check-label" for="inlineRadio2"
+                      >non-Vegetarian</label
+                    >
+                  </div>
+                  <!-- input -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <h4 class="mb-4 h5">Product Price</h4>
+              <!-- input -->
+              <div class="mb-3">
+                <label class="form-label">Regular Price per weight</label>
+                <div class="con" style="display: flex; padding-bottom: 5px">
+                  <input
+                    type="number"
+                    name="p1"
+                    class="form-control"
+                    placeholder="RS 0.00"
+                    style="padding-right: 5px"
+                  />
+                  <span style="padding: 0 5px"></span>
+                  <input
+                    type="text"
+                    name="w1"
+                    class="form-control"
+                    placeholder="Weight"
+                  />
+                </div>
+                <div class="con" style="display: flex; padding-bottom: 5px">
+                  <input
+                    type="number"
+                    name="p2"
+                    class="form-control"
+                    placeholder="RS 0.00"
+                    style="padding-right: 5px"
+                  />
+                  <span style="padding: 0 5px"></span>
+                  <input
+                    type="text"
+                    name="w2"
+                    class="form-control"
+                    placeholder="Weight"
+                  />
+                </div>
+                <div class="con" style="display: flex; padding-bottom: 5px">
+                  <input
+                    type="number"
+                    name="p3"
+                    class="form-control"
+                    placeholder="RS 0.00"
+                    style="padding-right: 5px"
+                  />
+                  <span style="padding: 0 5px"></span>
+                  <input
+                    type="text"
+                    name="w3"
+                    class="form-control"
+                    placeholder="Weight"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- card -->
+
+          <!-- button -->
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">
+              Create Product
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="{% static 'libs/quill/dist/qui.js' %}"></script>
+  {% endblock %}
+</main>
