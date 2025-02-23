@@ -1,0 +1,275 @@
+{% extends 'seller/baseDash.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+<div class="main-wrapper">
+  <!-- navbar vertical -->
+  <!-- navbar -->
+<nav class="navbar-vertical-nav d-none d-xl-block">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="{% url 'home' %}" class="navbar-brand">
+ <img src="{% static 'images/logo/freshcart-logo.svg' %}" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link   " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link active"
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'viewCustomers' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</nav>
+
+<nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
+<div class="navbar-vertical">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="../index.html" class="navbar-brand">
+ <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'viewCustomers' %}"
+    
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</div>
+</nav>
+        <!-- main -->
+         <!-- main wrapper -->
+         <main class="main-content-wrapper">
+            <div class="container">
+               <!-- row -->
+               <div class="row mb-8">
+                  <div class="col-md-12">
+                     <!-- page header -->
+                     <div>
+                        <h2>Order List</h2>
+                        <!-- breacrumb -->
+                        <nav aria-label="breadcrumb">
+                           <ol class="breadcrumb mb-0">
+                              <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">Order List</li>
+                           </ol>
+                        </nav>
+                     </div>
+                  </div>
+               </div>
+               <!-- row -->
+               <div class="row">
+                  <div class="col-xl-12 col-12 mb-5">
+                     <!-- card -->
+                     <div class="card h-100 card-lg">
+                        <div class="p-6">
+                           <div class="row justify-content-between">
+                              <div class="col-md-4 col-12 mb-2 mb-md-0">
+                                 <!-- form -->
+                                 <form class="d-flex" role="search">
+                                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" />
+                                 </form>
+                              </div>
+                              <div class="col-lg-2 col-md-4 col-12">
+                                 <!-- select -->
+                                 <select class="form-select">
+                                    <option selected>Status</option>
+                                    <option value="Success">Success</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Cancel">Cancel</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                        <!-- card body -->
+                        <div class="card-body p-0">
+                           <!-- table responsive -->
+                           <div class="table-responsive">
+                            {% if orders %}
+                              <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                                 <thead class="bg-light">
+                                    <tr>
+                                       <th>
+                                          <div class="form-check">
+                                             <input class="form-check-input" type="checkbox" value="" id="checkAll" />
+                                             <label class="form-check-label" for="checkAll"></label>
+                                          </div>
+                                       </th>
+                                       <th>Image</th>
+                                       <th>Order Name</th>
+                                       <th>Customer</th>
+                                       <th>Product</th>
+                                       <th>Date & TIme</th>
+                                       <th>Payment</th>
+                                       <th>Status</th>
+                                       <th>Amount</th>
+                                       <th></th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for item in orders %}
+                                    <tr>
+                                       <td>
+                                          <div class="form-check">
+                                             <input class="form-check-input" type="checkbox" value="" id="orderOne" />
+                                             <label class="form-check-label" for="orderOne"></label>
+                                          </div>
+                                       </td>
+                                       <td>
+                                          <a href="{% url 'item' item.product.id %}"><img src="{{ item.product.images.first.image.url }}" alt="" class="icon-shape icon-md" /></a>
+                                       </td>
+                                       <td><a href="{% url 'singleOrder' item.id %}" class="text-reset">#ORID{{item.id}}</a></td>
+                                      <td>{{ item.buyer.name }}</td>
+                                       <td>{{ item.product.name }}</td>
+                                       
+                                       <td>{{item.date_time}}</td>
+                                       <td>{{ item.payment_method }}</td>
+
+                                       <td>
+                                        {% if item.status == 'delivered' %}
+                                        <span class="badge bg-light-primary text-dark-primary">Success</span> 
+                                 {% elif item.status == 'cancelled' %}
+                                 <span class="badge bg-light-danger text-dark-danger">Cancel</span>
+                                 {% else %}
+                                 <span class="badge bg-light-warning text-dark-warning">Pending</span>
+                                 {% endif %}
+                                          <!---->
+                                       </td>
+                                       <td>₹{{item.price}}</td>
+
+                                       <td>
+                                          <div class="dropdown">
+                                             <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                             </a>
+                                             <ul class="dropdown-menu">
+                                                <li>
+                                                   <a class="dropdown-item" href="{% url 'delete_order' item.id %}">
+                                                      <i class="bi bi-trash me-3"></i>
+                                                      Delete
+                                                   </a>
+                                                </li>
+                                             </ul>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                 </tbody>
+                              </table>
+                              {% endif %}
+                                    
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </main>
+      </div>
+{% endblock %}

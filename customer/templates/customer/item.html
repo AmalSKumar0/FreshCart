@@ -4,6 +4,7 @@
 
 {% block content %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/review.scss' %}" />
 <main>
     <div class="mt-4">
        <div class="container">
@@ -414,11 +415,13 @@
                                         <span class="text-muted ms-3">7%</span>
                                      </div>
                                   </div>
+                                  {% if revPerm %}
                                   <div class="d-grid">
                                      <h4>Review this product</h4>
                                      <p class="mb-0">Share your thoughts with other customers.</p>
                                      <a href="#" class="btn btn-outline-gray-400 mt-4 text-muted">Write the Review</a>
                                   </div>
+                                  {% endif %}
                                </div>
                             </div>
                             <!-- col -->
@@ -429,222 +432,82 @@
                                         <!-- heading -->
                                         <h4>Reviews</h4>
                                      </div>
-                                     <div>
-                                        <select class="form-select">
-                                           <option selected>Top Reviews</option>
-                                           <option value="Most Recent">Most Recent</option>
-                                        </select>
-                                     </div>
                                   </div>
+                               {% if reviews %}
+                               {% for review in reviews %}   
                                   <div class="d-flex border-bottom pb-6 mb-6">
                                      <!-- img -->
                                      <!-- img -->
-                                     <img src="../assets/images/avatar/avatar-10.jpg" alt="" class="rounded-circle avatar-lg" />
+                                     <img src="{{review.user.photo.url}}" alt="" class="rounded-circle avatar-lg" />
                                      <div class="ms-5">
-                                        <h6 class="mb-1">Shankar Subbaraman</h6>
+                                        <h6 class="mb-1">{{review.user.name}}{% if user.id == review.user.id %}(you){% endif %}</h6>
                                         <!-- select option -->
                                         <!-- content -->
                                         <p class="small">
-                                           <span class="text-muted">30 December 2022</span>
-                                           <span class="text-primary ms-3 fw-bold">Verified Purchase</span>
-                                        </p>
+                                           <span class="text-muted">{{review.timestamp}}</span>
+                                      </p>
                                         <!-- rating -->
                                         <div class="mb-2">
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <span class="ms-3 text-dark fw-bold">Need to recheck the weight at delivery point</span>
+                                           <i class="bi bi-star{%if review.rating > 0 %}-fill{%endif%} text-warning"></i>
+                                           <i class="bi bi-star{%if review.rating > 1 %}-fill{%endif%} text-warning"></i>
+                                           <i class="bi bi-star{%if review.rating > 2 %}-fill{%endif%} text-warning"></i>
+                                           <i class="bi bi-star{%if review.rating > 3 %}-fill{%endif%} text-warning"></i>
+                                           <i class="bi bi-star{%if review.rating > 4 %}-fill{%endif%} text-warning"></i>
                                         </div>
                                         <!-- text-->
-                                        <p>
-                                           Product quality is good. But, weight seemed less than 1kg. Since it is being sent in open package, there is a possibility of pilferage in between.
-                                           FreshCart sends the veggies and fruits through sealed plastic covers and Barcode on the weight etc. .
-                                        </p>
-                                        <div>
-                                           <div class="border icon-shape icon-lg border-2">
-                                              <!-- img -->
-                                              <img src="../assets/images/products/product-img-1.jpg" alt="" class="img-fluid" />
-                                           </div>
-                                           <div class="border icon-shape icon-lg border-2 ms-1">
-                                              <!-- img -->
-                                              <img src="../assets/images/products/product-img-2.jpg" alt="" class="img-fluid" />
-                                           </div>
-                                           <div class="border icon-shape icon-lg border-2 ms-1">
-                                              <!-- img -->
-                                              <img src="../assets/images/products/product-img-3.jpg" alt="" class="img-fluid" />
-                                           </div>
-                                        </div>
-                                        <!-- icon -->
-                                        <div class="d-flex justify-content-end mt-4">
-                                           <a href="#" class="text-muted">
-                                              <i class="feather-icon icon-thumbs-up me-1"></i>
-                                              Helpful
-                                           </a>
-                                           <a href="#" class="text-muted ms-4">
-                                              <i class="feather-icon icon-flag me-2"></i>
-                                              Report abuse
-                                           </a>
-                                        </div>
+                                        <p>{{review.review}}</p>
+                                        {% if user.id == review.user.id %} <a href="{% url 'delete_review' review.id %}">Delete</a>{% endif %}
                                      </div>
                                   </div>
-                                  <div class="d-flex border-bottom pb-6 mb-6 pt-4">
-                                     <!-- img -->
-                                     <img src="../assets/images/avatar/avatar-12.jpg" alt="" class="rounded-circle avatar-lg" />
-                                     <div class="ms-5">
-                                        <h6 class="mb-1">Robert Thomas</h6>
-                                        <!-- content -->
-                                        <p class="small">
-                                           <span class="text-muted">29 December 2022</span>
-                                           <span class="text-primary ms-3 fw-bold">Verified Purchase</span>
-                                        </p>
-                                        <!-- rating -->
-                                        <div class="mb-2">
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star text-warning"></i>
-                                           <span class="ms-3 text-dark fw-bold">Need to recheck the weight at delivery point</span>
-                                        </div>
-
-                                        <p>
-                                           Product quality is good. But, weight seemed less than 1kg. Since it is being sent in open package, there is a possibility of pilferage in between.
-                                           FreshCart sends the veggies and fruits through sealed plastic covers and Barcode on the weight etc..
-                                        </p>
-                                        <!-- icon -->
-                                        <div class="d-flex justify-content-end mt-4">
-                                           <a href="#" class="text-muted">
-                                              <i class="feather-icon icon-thumbs-up me-1"></i>
-                                              Helpful
-                                           </a>
-                                           <a href="#" class="text-muted ms-4">
-                                              <i class="feather-icon icon-flag me-2"></i>
-                                              Report abuse
-                                           </a>
-                                        </div>
-                                     </div>
-                                  </div>
-                                  <div class="d-flex border-bottom pb-6 mb-6 pt-4">
-                                     <!-- img -->
-                                     <img src="../assets/images/avatar/avatar-9.jpg" alt="" class="rounded-circle avatar-lg" />
-                                     <div class="ms-5">
-                                        <h6 class="mb-1">Barbara Tay</h6>
-                                        <!-- content -->
-                                        <p class="small">
-                                           <span class="text-muted">28 December 2022</span>
-                                           <span class="text-danger ms-3 fw-bold">Unverified Purchase</span>
-                                        </p>
-                                        <!-- rating -->
-                                        <div class="mb-2">
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star text-warning"></i>
-                                           <span class="ms-3 text-dark fw-bold">Need to recheck the weight at delivery point</span>
-                                        </div>
-
-                                        <p>Everytime i ordered from fresh i got greenish yellow bananas just like i wanted so go for it , its happens very rare that u get over riped ones.</p>
-
-                                        <!-- icon -->
-                                        <div class="d-flex justify-content-end mt-4">
-                                           <a href="#" class="text-muted">
-                                              <i class="feather-icon icon-thumbs-up me-1"></i>
-                                              Helpful
-                                           </a>
-                                           <a href="#" class="text-muted ms-4">
-                                              <i class="feather-icon icon-flag me-2"></i>
-                                              Report abuse
-                                           </a>
-                                        </div>
-                                     </div>
-                                  </div>
-                                  <div class="d-flex border-bottom pb-6 mb-6 pt-4">
-                                     <!-- img -->
-                                     <img src="../assets/images/avatar/avatar-8.jpg" alt="" class="rounded-circle avatar-lg" />
-                                     <div class="ms-5 flex-grow-1">
-                                        <h6 class="mb-1">Sandra Langevin</h6>
-                                        <!-- content -->
-                                        <p class="small">
-                                           <span class="text-muted">8 December 2022</span>
-                                           <span class="text-danger ms-3 fw-bold">Unverified Purchase</span>
-                                        </p>
-                                        <!-- rating -->
-                                        <div class="mb-2">
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star-fill text-warning"></i>
-                                           <i class="bi bi-star text-warning"></i>
-                                           <span class="ms-3 text-dark fw-bold">Great product</span>
-                                        </div>
-
-                                        <p>Great product & package. Delivery can be expedited.</p>
-
-                                        <!-- icon -->
-                                        <div class="d-flex justify-content-end mt-4">
-                                           <a href="#" class="text-muted">
-                                              <i class="feather-icon icon-thumbs-up me-1"></i>
-                                              Helpful
-                                           </a>
-                                           <a href="#" class="text-muted ms-4">
-                                              <i class="feather-icon icon-flag me-2"></i>
-                                              Report abuse
-                                           </a>
-                                        </div>
-                                     </div>
-                                  </div>
-                                  <div>
-                                     <a href="#" class="btn btn-outline-gray-400 text-muted">Read More Reviews</a>
-                                  </div>
-                               </div>
+                                {% endfor %}
+                                {% endif %}
+                               {% if revPerm %}
                                <div>
                                   <!-- rating -->
                                   <h3 class="mb-5">Create Review</h3>
-                                  <div class="border-bottom py-4 mb-4">
-                                     <h4 class="mb-3">Overall rating</h4>
-                                     <div class="rater"></div>
-                                  </div>
-                                  <div class="border-bottom py-4 mb-4">
-                                     <h4 class="mb-0">Rate Features</h4>
-                                     <div class="my-5">
-                                        <h5>Flavor</h5>
-                                        <div class="rater"></div>
-                                     </div>
-                                     <div class="my-5">
-                                        <h5>Value for money</h5>
-                                        <div class="rater"></div>
-                                     </div>
-                                     <div class="my-5">
-                                        <h5>Scent</h5>
-                                        <div class="rater"></div>
-                                     </div>
-                                  </div>
-                                  <!-- form control -->
-                                  <div class="border-bottom py-4 mb-4">
-                                     <h5>Add a headline</h5>
-                                     <input type="text" class="form-control" placeholder="What’s most important to know" />
-                                  </div>
-                                  <div class="border-bottom py-4 mb-4">
-                                     <h5>Add a photo or video</h5>
-                                     <p>Shoppers find images and videos more helpful than text alone.</p>
-                                     <!-- form -->
-
-                                     <div id="my-dropzone" class="dropzone mt-4 border-dashed rounded-2 min-h-0"></div>
+                                  <form action="{% url 'post_review' %} " method="post">
+                                    {% csrf_token %}
+                                  <div class="border-bottom py-4 mb-4" style="display: flex;">
+                                     <h4 class="mb-3" style="padding-right:20px ;">Overall rating</h4> 
+                                     <style>
+                                       input[type="radio"] { all: unset;}
+                                     </style>
+                                     <input type="hidden" name="pid" value="{{product.id}}">
+                                     <div>
+                                     <input type="radio" value="1" name="star"  class="bi bi-star text-warning" id="star-icon-1" onclick="updateStars(1)">
+                                     <input type="radio" value="2" name="star"  class="bi bi-star text-warning" id="star-icon-2" onclick="updateStars(2)">
+                                     <input type="radio" value="3" name="star"  class="bi bi-star text-warning" id="star-icon-3" onclick="updateStars(3)">
+                                     <input type="radio" value="4" name="star"  class="bi bi-star text-warning" id="star-icon-4" onclick="updateStars(4)">
+                                     <input type="radio" value="5" name="star"  class="bi bi-star text-warning" id="star-icon-5" onclick="updateStars(5)">
+                                    </div>
+                                     <script>
+                                       function updateStars(rating) {
+                                          for (let i = 1; i <= 5; i++) {
+                                            const starIcon = document.getElementById(`star-icon-${i}`);
+                                            if (i <= rating) {
+                                              starIcon.classList.remove('bi-star');
+                                              starIcon.classList.add('bi-star-fill');
+                                            } else {
+                                              starIcon.classList.remove('bi-star-fill');
+                                              starIcon.classList.add('bi-star');
+                                            }
+                                          }
+                                       }
+                                     </script>
                                   </div>
                                   <div class="py-4 mb-4">
                                      <!-- heading -->
                                      <h5>Add a written review</h5>
-                                     <textarea class="form-control" rows="3" placeholder="What did you like or dislike? What did you use this product for?"></textarea>
+                                     <textarea class="form-control" name="review" rows="3" placeholder="What did you like or dislike? What did you use this product for?"></textarea>
                                   </div>
                                   <!-- button -->
                                   <div class="d-flex justify-content-end">
-                                     <a href="#" class="btn btn-primary">Submit Review</a>
+                                     <button type="submit" class="btn btn-primary">Submit Review</button>
                                   </div>
                                </div>
+                              </form>
                             </div>
+                            {% endif %}
                          </div>
                       </div>
                    </div>

@@ -24,8 +24,6 @@ def common_data(request):
         for item in cart_items:
            item.max_quantity = item.quantity + item.product.stock
 
-        
-    
     return {
         "login": login,
         "user": user,

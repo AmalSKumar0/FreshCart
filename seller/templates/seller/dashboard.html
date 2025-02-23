@@ -1,323 +1,147 @@
-{% extends 'seller/baseDash.html' %}
+{% extends 'seller/baseDash.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+<div class="main-wrapper">
+   <!-- navbar vertical -->
+   <!-- navbar -->
+ <nav class="navbar-vertical-nav d-none d-xl-block">
+ <div class="navbar-vertical">
+ <div class="px-4 py-5">
+ <a href="{% url 'home' %}" class="navbar-brand">
+  <img src="{% static 'images/logo/freshcart-logo.svg' %}" alt="" />
+ </a>
+ </div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link active" href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
 
-      {% block title %}Home - FreshCart{% endblock %}
-      
-      {% block content %}
-      {% load static %}
-          
-      <div class="main-wrapper">
-         <!-- navbar vertical -->
-         <!-- navbar -->
-       <nav class="navbar-vertical-nav d-none d-xl-block">
-       <div class="navbar-vertical">
-       <div class="px-4 py-5">
-       <a href="../index.html" class="navbar-brand">
-        <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
-       </a>
-       </div>
-       <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
-       <ul class="navbar-nav flex-column" id="sideNavbar">
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'seller_dashboard' %}">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-house"></i></span>
-              <span class="nav-link-text">Dashboard</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item mt-6 mb-3">
-          <span class="nav-label">Store Managements</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link   " href="{% url 'allProducts' %}">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-              <span class="nav-link-text">Products</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link  collapsed "
-            href="#"
-            data-bs-toggle="collapse"
-            data-bs-target="#navCategoriesOrders"
-            aria-expanded="false"
-            aria-controls="navCategoriesOrders"
-          >
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-              <span class="nav-link-text">Orders</span>
-            </div>
-          </a>
-          <!-- <div id="navCategoriesOrders" class="collapse " data-bs-parent="#sideNavbar">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link " href="order-list.html">List</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link " href="order-single.html">Single</a>
-              </li>
-            </ul>
-          </div> -->
-        </li>
-       
-        <li class="nav-item">
-          <a
-            class="nav-link  collapsed "
-            href="#"
-            data-bs-toggle="collapse"
-            data-bs-target="#navCustomer"
-            aria-expanded="false"
-            aria-controls="navCustomer"
-          >
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-              <span class="nav-link-text">Customers</span>
-              <span class="badge bg-light-success text-dark-success ms-2">New</span>
-            </div>
-          </a>
-        </li>
-       
-        <li class="nav-item">
-          <a class="nav-link " href="reviews.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-star"></i></span>
-              <span class="nav-link-text">Reviews</span>
-            </div>
-          </a>
-        </li>
-        <!-- Nav item -->
-        
-       </ul>
-       </div>
-       </div>
-       </nav>
-       
-       <nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
-       <div class="navbar-vertical">
-       <div class="px-4 py-5 d-flex justify-content-between align-items-center">
-       <a href="../index.html" class="navbar-brand">
-        <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
-       </a>
-       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-       </div>
-       <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
-       <ul class="navbar-nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active" href="index.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-house"></i></span>
-              <span>Dashboard</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item mt-6 mb-3">
-          <span class="nav-label">Store Managements</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link   " href="products.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-              <span class="nav-link-text">Products</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="categories.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
-              <span class="nav-link-text">Categories</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link  collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navOrders" aria-expanded="false" aria-controls="navOrders">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
-              <span class="nav-link-text">Orders</span>
-            </div>
-          </a>
-          <div id="navOrders" class="collapse " data-bs-parent="#sideNavbar">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link " href="order-list.html">List</a>
-              </li>
-              <!-- Nav item -->
-              <li class="nav-item">
-                <a class="nav-link " href="order-single.html">Single</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="vendor-grid.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-shop"></i></span>
-              <span class="nav-link-text">Sellers / Vendors</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="customers.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-people"></i></span>
-              <span class="nav-link-text">Customers</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="reviews.html">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-star"></i></span>
-              <span class="nav-link-text">Reviews</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item mt-6 mb-3">
-          <span class="nav-label">Site Settings</span>
-          <span class="badge bg-light-info text-dark-info">Coming Soon</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-newspaper"></i></span>
-              <span class="nav-link-text">Blog</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-images"></i></span>
-              <span class="nav-link-text">Media</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-gear"></i></span>
-              <span class="nav-link-text">Store Settings</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item mt-6 mb-3">
-          <span class="nav-label">Support</span>
-          <span class="badge bg-light-info text-dark-info">Coming Soon</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-headphones"></i></span>
-              <span class="nav-link-text">Support Ticket</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-question-circle"></i></span>
-              <span class="nav-link-text">Help Center</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-infinity"></i></span>
-              <span class="nav-link-text">How FreshCart Works</span>
-            </div>
-          </a>
-        </li>
-       
-        <li class="nav-item mt-6 mb-3">
-          <span class="nav-label">Our Apps</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-apple"></i></span>
-              <span class="nav-link-text">Apple Store</span>
-            </div>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#!">
-            <div class="d-flex align-items-center">
-              <span class="nav-link-icon"><i class="bi bi-google-play"></i></span>
-              <span class="nav-link-text">Google Play Store</span>
-            </div>
-          </a>
-        </li>
-        <li id="navMenuLevel" class="collapse " data-bs-parent="#sideNavbar">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a
-                class="nav-link "
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#navMenuLevelSecond2"
-                aria-expanded="false"
-                aria-controls="navMenuLevelSecond2"
-              >
-                Two Level
-              </a>
-              <div id="navMenuLevelSecond2" class="collapse" data-bs-parent="#navMenuLevel">
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a class="nav-link " href="#">NavItem 1</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link " href="#">NavItem 2</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link  collapsed "
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#navMenuLevelThree2"
-                aria-expanded="false"
-                aria-controls="navMenuLevelThree2"
-              >
-                Three Level
-              </a>
-              <div id="navMenuLevelThree2" class="collapse " data-bs-parent="#navMenuLevel">
-                <ul class="nav flex-column">
-                  <li class="nav-item">
-                    <a
-                      class="nav-link  collapsed "
-                      href="#"
-                      data-bs-toggle="collapse"
-                      data-bs-target="#navMenuLevelThree3"
-                      aria-expanded="false"
-                      aria-controls="navMenuLevelThree3"
-                    >
-                      NavItem 1
-                    </a>
-                    <div id="navMenuLevelThree3" class="collapse collapse " data-bs-parent="#navMenuLevelThree">
-                      <ul class="nav flex-column">
-                        <li class="nav-item">
-                          <a class="nav-link " href="#">NavChild Item 1</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link " href="#">Nav Item 2</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </li>
-       </ul>
-       </div>
-       </div>
-       </nav>
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'viewCustomers' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</nav>
+
+<nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
+<div class="navbar-vertical">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="../index.html" class="navbar-brand">
+ <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link active" href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link   " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'viewCustomers' %}"
+    
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</div>
+</nav>
             <!-- main wrapper -->
             <main class="main-content-wrapper">
                 <section class="container">
@@ -329,8 +153,8 @@
                             class="card bg-light border-0 rounded-4"
                             style="background-image: url(../assets/images/slider/slider-image-1.jpg); background-repeat: no-repeat; background-size: cover; background-position: right">
                             <div class="card-body p-lg-12">
-                               <h1>Welcome back! FreshCart</h1>
-                               <p>FreshCart is simple & clean design for developer and designer.</p>
+                               <h1>Welcome back! {{user.name}}</h1>
+                               <p>Sell your products with us</p>
                                <a href="{% url 'add_product' %}" class="btn btn-primary">Add Product</a>
                             </div>
                          </div>
@@ -350,12 +174,12 @@
                                         <h4 class="mb-0 fs-5">Earnings</h4>
                                      </div>
                                      <div class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle">
-                                        <i class="bi bi-currency-dollar fs-5"></i>
+                                        <div class="bi bi-currency-rupees fs-5">₹</div>
                                      </div>
                                   </div>
                                   <!-- project number -->
                                   <div class="lh-1">
-                                     <h1 class="mb-2 fw-bold fs-2">$93,438.78</h1>
+                                     <h1 class="mb-2 fw-bold fs-2">₹{{monthly_earnings}}</h1>
                                      <span>Monthly revenue</span>
                                   </div>
                                </div>
@@ -377,10 +201,10 @@
                                   </div>
                                   <!-- project number -->
                                   <div class="lh-1">
-                                     <h1 class="mb-2 fw-bold fs-2">42,339</h1>
+                                     <h1 class="mb-2 fw-bold fs-2">{{total_orders}}</h1>
                                      <span>
-                                        <span class="text-dark me-1">35+</span>
-                                        New Sales
+                                        <span class="text-dark me-1">{{two_day_sales}}</span>
+                                        New Orders In 2 Days
                                      </span>
                                   </div>
                                </div>
@@ -402,9 +226,9 @@
                                   </div>
                                   <!-- project number -->
                                   <div class="lh-1">
-                                     <h1 class="mb-2 fw-bold fs-2">39,354</h1>
+                                     <h1 class="mb-2 fw-bold fs-2">{{noofcustomers}}</h1>
                                      <span>
-                                        <span class="text-dark me-1">30+</span>
+                                        <span class="text-dark me-1">{{two_day_customers}}</span>
                                         new in 2 days
                                      </span>
                                   </div>
@@ -424,16 +248,13 @@
                                <div class="d-flex justify-content-between">
                                   <div>
                                      <h3 class="mb-1 fs-5">Revenue</h3>
-                                     <small>(+63%) than last year)</small>
+                                     <small>(+100%) than last year</small>
                                   </div>
                                   <div>
                                      <!-- select option -->
                                      <select class="form-select">
-                                        <option selected>2019</option>
-                                        <option value="2023">2020</option>
-                                        <option value="2024">2021</option>
-                                        <option value="2025">2022</option>
-                                        <option value="2025">2023</option>
+                                        <option selected>2025</option>
+                                      
                                      </select>
                                   </div>
                                </div>
@@ -458,8 +279,8 @@
                                            <circle cx="8" cy="8" r="8" />
                                         </svg>
                                         <span class="ms-1">
-                                           <span class="text-dark">Shippings $32.98</span>
-                                           (2%)
+                                           <span class="text-dark">Completed {{completed_orders}}</span>
+                                           ({{completedPer}}%)
                                         </span>
                                      </li>
                                      <li class="mb-2">
@@ -467,8 +288,8 @@
                                            <circle cx="8" cy="8" r="8" />
                                         </svg>
                                         <span class="ms-1">
-                                           <span class="text-dark">Refunds $11</span>
-                                           (11%)
+                                           <span class="text-dark">Pending {{pending_orders}}</span>
+                                           ({{PendingPer}}%)
                                         </span>
                                      </li>
                                      <li class="mb-2">
@@ -476,17 +297,8 @@
                                            <circle cx="8" cy="8" r="8" />
                                         </svg>
                                         <span class="ms-1">
-                                           <span class="text-dark">Order $14.87</span>
-                                           (1%)
-                                        </span>
-                                     </li>
-                                     <li>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" fill="currentColor" class="bi bi-circle-fill text-info" viewBox="0 0 16 16">
-                                           <circle cx="8" cy="8" r="8" />
-                                        </svg>
-                                        <span class="ms-1">
-                                           <span class="text-dark">Income 3,271</span>
-                                           (86%)
+                                           <span class="text-dark">Cancelled {{cancelled_orders}}</span>
+                                           ({{cancelledPer}}%)
                                         </span>
                                      </li>
                                   </ul>
@@ -509,8 +321,8 @@
                                      <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Profit</h5>
                                         <span>
-                                           <span class="me-1 text-dark">$1,619</span>
-                                           (8.6%)
+                                           <span class="me-1 text-dark">₹{{total_profit}}</span>
+                                           ({{profitPer}}%)
                                         </span>
                                      </div>
                                      <!-- main wrapper -->
@@ -521,8 +333,8 @@
                                               class="progress-bar bg-primary"
                                               role="progressbar"
                                               aria-label="Example 1px high"
-                                              style="width: 25%"
-                                              aria-valuenow="25"
+                                              style="width: {{profitPer}}%"
+                                              aria-valuenow="{{profitPer}}"
                                               aria-valuemin="0"
                                               aria-valuemax="100"></div>
                                         </div>
@@ -533,8 +345,7 @@
                                      <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Income</h5>
                                         <span>
-                                           <span class="me-1 text-dark">$3,571</span>
-                                           (86.4%)
+                                           <span class="me-1 text-dark">₹{{total_earnings}}</span> (100%)
                                         </span>
                                      </div>
                                      <div>
@@ -544,8 +355,8 @@
                                               class="progress-bar bg-info"
                                               role="progressbar"
                                               aria-label="Example 1px high"
-                                              style="width: 88%"
-                                              aria-valuenow="88"
+                                              style="width: 100%"
+                                              aria-valuenow="100"
                                               aria-valuemin="0"
                                               aria-valuemax="100"></div>
                                         </div>
@@ -556,8 +367,7 @@
                                      <div class="d-flex align-items-center justify-content-between">
                                         <h5 class="fs-6">Total Expenses</h5>
                                         <span>
-                                           <span class="me-1 text-dark">$3,430</span>
-                                           (74.5%)
+                                           <span class="me-1 text-dark">₹{{total_expence}}</span> ({{expencePer}}%)
                                         </span>
                                      </div>
                                      <div>
@@ -567,8 +377,8 @@
                                               class="progress-bar bg-danger"
                                               role="progressbar"
                                               aria-label="Example 1px high"
-                                              style="width: 45%"
-                                              aria-valuenow="45"
+                                              style="width: {{expencePer}}%"
+                                              aria-valuenow="{{expencePer}}"
                                               aria-valuemin="0"
                                               aria-valuemax="100"></div>
                                         </div>
@@ -626,83 +436,184 @@
                          </div>
                       </div>
                    </div>
-                   <!-- row -->
-                   <div class="row">
-                      <div class="col-xl-12 col-lg-12 col-md-12 col-12 mb-6">
-                         <div class="card h-100 card-lg">
-                            <!-- heading -->
-                            <div class="p-6">
-                               <h3 class="mb-0 fs-5">Recent Order</h3>
-                            </div>
-                            <div class="card-body p-0">
-                               <!-- table -->
-                               <div class="table-responsive">
-                                  <table class="table table-centered table-borderless text-nowrap table-hover">
-                                     <thead class="bg-light">
-                                        <tr>
-                                           <th scope="col">Order Number</th>
-                                           <th scope="col">Product Name</th>
-                                           <th scope="col">Order Date</th>
-                                           <th scope="col">Price</th>
-                                           <th scope="col">Status</th>
-                                        </tr>
-                                     </thead>
-                                     <tbody>
-                                        <tr>
-                                           <td>#FC0005</td>
-                                           <td>Haldiram's Sev Bhujia</td>
-                                           <td>28 March 2023</td>
-                                           <td>$18.00</td>
-                                           <td>
-                                              <span class="badge bg-light-primary text-dark-primary">Shipped</span>
-                                           </td>
-                                        </tr>
-                                        <tr>
-                                           <td>#FC0004</td>
-                                           <td>NutriChoice Digestive</td>
-                                           <td>24 March 2023</td>
-                                           <td>$24.00</td>
-                                           <td>
-                                              <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                           </td>
-                                        </tr>
-                                        <tr>
-                                           <td>#FC0003</td>
-                                           <td>Onion Flavour Potato</td>
-                                           <td>8 Feb 2023</td>
-                                           <td>$9.00</td>
-                                           <td>
-                                              <span class="badge bg-light-danger text-dark-danger">Cancel</span>
-                                           </td>
-                                        </tr>
-                                        <tr>
-                                           <td>#FC0002</td>
-                                           <td>Blueberry Greek Yogurt</td>
-                                           <td>20 Jan 2023</td>
-                                           <td>$12.00</td>
-                                           <td>
-                                              <span class="badge bg-light-warning text-dark-warning">Pending</span>
-                                           </td>
-                                        </tr>
-                                        <tr>
-                                           <td>#FC0001</td>
-                                           <td>Slurrp Millet Chocolate</td>
-                                           <td>14 Jan 2023</td>
-                                           <td>$8.00</td>
-                                           <td>
-                                              <span class="badge bg-light-info text-dark-info">Processing</span>
-                                           </td>
-                                        </tr>
-                                     </tbody>
-                                  </table>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                   </div>
                 </section>
              </main>
           </div>
        </div>
- 
-    {% endblock %}
+       <script src="{% static 'js/theme.min.js' %}"></script>
+
+<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+<script>
+   const theme = {
+  primary: "var(--fc-primary)",
+  secondary: "var(--fc-secondary)",
+  success: "var(--fc-success)",
+  info: "var(--fc-info)",
+  warning: "var(--fc-warning)",
+  danger: "var(--fc-danger)",
+  dark: "var(--fc-dark)",
+  light: "var(--fc-light)",
+  white: "var(--fc-white)",
+  gray100: "var(--fc-gray-100)",
+  gray200: "var(--fc-gray-200)",
+  gray300: "var(--fc-gray-300)",
+  gray400: "var(--fc-gray-400)",
+  gray500: "var(--fc-gray-500)",
+  gray600: "var(--fc-gray-600)",
+  gray700: "var(--fc-gray-700)",
+  gray800: "var(--fc-gray-800)",
+  gray900: "var(--fc-gray-900)",
+  black: "var(--fc-black)",
+  transparent: "transparent",
+};
+(window.theme = theme),
+  (function () {
+    "use strict";
+    var e;
+    document.getElementById("revenueChart") &&
+      ((e = {
+      series: [
+        { name: "Total Income", data: [ {% for sale in daily_sales %} {{sale.income}},{% endfor %} ] },
+        { name: "Total Expense", data: [ {% for sale in daily_sales %} {{sale.expense}},{% endfor %} ] },
+      ],
+      labels: [
+      {% for sale in daily_sales %} '{{sale.day}}',{% endfor %}
+      ],
+        chart: { height: 350, type: "area", toolbar: { show: !1 } },
+        dataLabels: { enabled: !1 },
+        markers: { size: 5, hover: { size: 6, sizeOffset: 3 } },
+        colors: ["#0aad0a", "#ffc107"],
+        stroke: { curve: "smooth", width: 2 },
+        grid: { borderColor: window.theme.gray300 },
+        xaxis: {
+          labels: {
+            show: !0,
+            align: "right",
+            minWidth: 0,
+            maxWidth: 160,
+            style: {
+              fontSize: "12px",
+              fontWeight: 400,
+              colors: [window.theme.gray600],
+              fontFamily: '"Inter", "sans-serif"',
+            },
+          },
+          axisBorder: {
+            show: !0,
+            color: window.theme.gray300,
+            height: 1,
+            width: "100%",
+            offsetX: 0,
+            offsetY: 0,
+          },
+          axisTicks: {
+            show: !0,
+            borderType: "solid",
+            color: window.theme.gray300,
+            height: 6,
+            offsetX: 0,
+            offsetY: 0,
+          },
+        },
+        legend: {
+          position: "top",
+          fontWeight: 600,
+          color: window.theme.gray600,
+          markers: {
+            width: 8,
+            height: 8,
+            strokeWidth: 0,
+            strokeColor: "#fff",
+            fillColors: void 0,
+            radius: 12,
+            customHTML: void 0,
+            onClick: void 0,
+            offsetX: 0,
+            offsetY: 0,
+          },
+          labels: { colors: window.theme.gray600, useSeriesColors: !1 },
+        },
+        yaxis: {
+          labels: {
+            formatter: function (e) {
+              return e;
+            },
+            show: !0,
+            align: "right",
+            minWidth: 0,
+            maxWidth: 160,
+            style: {
+              fontSize: "12px",
+              fontWeight: 400,
+              colors: window.theme.gray600,
+              fontFamily: '"Inter", "sans-serif"',
+            },
+          },
+        },
+      }),
+      new ApexCharts(document.getElementById("revenueChart"), e).render()),
+      document.getElementById("totalSale") &&
+        ((e = {
+          series: [ {{completed_orders}} , {{pending_orders}}, {{cancelled_orders}}],
+          labels: ["Completed", "Pending", "Cancelled"],
+          colors: ["#0aad0a", "#ffc107", "#db3030"],
+          chart: { type: "donut", height: 280 },
+          legend: { show: !1 },
+          dataLabels: { enabled: !1 },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: "85%",
+                background: "transparent",
+                labels: {
+                  show: !0,
+                  name: {
+                    show: !0,
+                    fontSize: "22px",
+                    fontFamily: '"Inter", "sans-serif"',
+                    fontWeight: 600,
+                    colors: [window.theme.gray600],
+                    offsetY: -10,
+                    formatter: function (e) {
+                      return e;
+                    },
+                  },
+                  value: {
+                    show: !0,
+                    fontSize: "24px",
+                    fontFamily: '"Inter", "sans-serif"',
+                    fontWeight: 800,
+                    colors: window.theme.gray800,
+                    offsetY: 8,
+                    formatter: function (e) {
+                      return e;
+                    },
+                  },
+                  total: {
+                    show: !0,
+                    showAlways: !1,
+                    label: "Total Sales",
+                    fontSize: "16px",
+                    fontFamily: '"Inter", "sans-serif"',
+                    fontWeight: 400,
+                    colors: window.theme.gray400,
+                    formatter: function (e) {
+                      return e.globals.seriesTotals.reduce((e, r) => e + r, 0);
+                    },
+                  },
+                },
+              },
+            },
+          },
+          stroke: { width: 0 },
+          responsive: [
+            {
+              breakpoint: 1400,
+              options: { chart: { type: "donut", width: 290, height: 330 } },
+            },
+          ],
+        }),
+        new ApexCharts(document.getElementById("totalSale"), e).render());
+  })();
+
+</script>    {% endblock %}

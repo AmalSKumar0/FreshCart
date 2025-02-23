@@ -16,4 +16,5 @@ urlpatterns = [
     path('products_list/', products_list, name="products_list"),
     path('editAccount/',editAccount,name="editAccount"),
     path('resetPassword/',resetPassword,name="resetPassword"),
+    path('orderSingle/<int:order_id>/',orderSingle,name="orderSingle"),
 ]

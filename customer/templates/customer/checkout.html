@@ -42,13 +42,14 @@
           </div>
           <div>
              <!-- row -->
+             <form action="{% url 'order' %}" method="post" >
+               {% csrf_token %}
              <div class="row">
                 <div class="col-xl-7 col-lg-6 col-md-12">
                    <!-- accordion -->
                    <div class="accordion accordion-flush" id="accordionFlushExample">
                       <!-- accordion item -->
-                      <form action="{% url 'order' %}" method="post" >
-                        {% csrf_token %}
+                      
                       <div class="accordion-item py-4">
                          <div class="d-flex justify-content-between align-items-center">
                             <!-- heading one -->
@@ -165,7 +166,7 @@
                                         <div class="d-flex">
                                            <div class="form-check">
                                               <!-- checkbox -->
-                                              <input class="form-check-input" value="upi" type="radio" name="flexRadioDefault" id="paypal" />
+                                              <input class="form-check-input" value="upi" type="radio" name="flexRadioDefault" id="paypal" required/>
                                               <label class="form-check-label ms-2" for="UPI"></label>
                                            </div>
                                            <div>
@@ -183,7 +184,7 @@
                                         <div class="d-flex mb-4">
                                            <div class="form-check">
                                               <!-- input -->
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" value="credit_card" id="creditdebitcard" />
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" value="credit_card" id="creditdebitcard" required/>
                                               <label class="form-check-label ms-2" for="creditdebitcard"></label>
                                            </div>
                                            <div>
@@ -237,7 +238,7 @@
                                         <!-- check input -->
                                         <div class="d-flex">
                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" value="net_banking" name="flexRadioDefault" id="payoneer" />
+                                              <input class="form-check-input" type="radio" value="net_banking" name="flexRadioDefault" id="payoneer" required />
                                               <label class="form-check-label ms-2" for="payoneer"></label>
                                            </div>
                                            <div>
@@ -254,7 +255,7 @@
                                         <!-- check input -->
                                         <div class="d-flex">
                                            <div class="form-check">
-                                              <input class="form-check-input" type="radio" name="flexRadioDefault" value="cod" id="cashonDelivery" />
+                                              <input class="form-check-input" type="radio" name="flexRadioDefault" value="cod" id="cashonDelivery" required/>
                                               <label class="form-check-label ms-2" for="cashonDelivery"></label>
                                            </div>
                                            <div>
@@ -282,10 +283,10 @@
                             </div>
                          </div>
                       </div>
-                      </form>
+                      
                    </div>
                 </div>
-
+               </form>
                 <div class="col-md-12 offset-xl-1 col-xl-4 col-lg-6">
                    <div class="mt-4 mt-lg-0">
                       <div class="card shadow-sm">

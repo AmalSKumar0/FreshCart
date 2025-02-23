@@ -210,6 +210,8 @@ def order(request):
         address = Address.objects.get(id=request.POST.get('address'))
         status = 'processing'
 
+        
+
         cart_items = Cart.objects.filter(user=user)
         for item in cart_items:
             Order.objects.create(
@@ -299,3 +301,29 @@ def delete_order(request, order_id):
     order.delete() 
     messages.success(request, "Order Deleted")
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+
+def post_review(request):
+    user = User.objects.get(
+        id=request.session.get("userid")
+        )
+    if request.method=="POST":
+        Review.objects.create(
+            user=user,
+            product = Product.objects.get(id = request.POST.get('pid')),
+            rating = request.POST.get('star'),
+            review = request.POST.get('review')
+        )
+        messages.success(request, "review Posted")
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+def delete_review(request,rid):
+    Review.objects.get(id=rid).delete()
+    messages.success(request, "review Deleted")
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
+def allOrders(request):
+    user = User.objects.get(id=request.session.get("userid"))
+    orders = Order.objects.filter(seller=user)
+    return render(request,'seller/orders.html',{'orders':orders})
+

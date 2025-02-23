@@ -102,7 +102,7 @@
                            
                             <!-- Table body -->
                              {% for item in ordered_items %}
-                            
+                            <tr>
                                <td class="align-middle border-top-0 w-0">
                                   <a href="{% url 'item' item.product.id %}"><img src="{{ item.product.images.first.image.url }}" alt="Ecommerce" class="icon-shape icon-xl" /></a>
                                </td>
@@ -116,12 +116,12 @@
                                   <a href="#" class="text-inherit">#ORID{{item.id}}</a>
                                </td>
                                <td class="align-middle border-top-0">{{item.date_time}}</td>
-                               <td class="align-middle border-top-0">1</td>
+                               <td class="align-middle border-top-0">{{item.quantity}}</td>
                                <td class="align-middle border-top-0">
                                  {% if item.status == 'delivered' %}
                                  <span class="badge bg-success">Completed</span>
                                  {% elif item.status == 'cancelled' %}
-                                 <span class="badge bg-danger">Cancel</span>
+                                 <span class="badge bg-danger">Cancelled</span>
                                  {% else %}
                                  <span class="badge bg-warning">{{item.status}}</span>
                                  {% endif %}
@@ -133,13 +133,12 @@
                                  {% else %}
                                    <a href="{% url 'cancel_order' item.id %}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">cancel</a>
                                  {% endif %}
-
-                                </td>                      
-                            </td>
+                                </td>   
+                              </tr>                   
                             {% endfor %}
-                            {% endif %}
                          </tbody>
                       </table>
+                      {% endif %}
                    </div>
                 </div>
              </div>

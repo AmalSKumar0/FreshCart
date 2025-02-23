@@ -1,0 +1,231 @@
+{% extends 'seller/baseDash.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+<div class="main-wrapper">
+  <!-- navbar vertical -->
+  <!-- navbar -->
+<nav class="navbar-vertical-nav d-none d-xl-block">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="{% url 'home' %}" class="navbar-brand">
+ <img src="{% static 'images/logo/freshcart-logo.svg' %}" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link   " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link active"
+     href="{% url 'viewCustomers' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</nav>
+
+<nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
+<div class="navbar-vertical">
+<div class="navbar-vertical">
+<div class="px-4 py-5">
+<a href="../index.html" class="navbar-brand">
+ <img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+</a>
+</div>
+<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+<ul class="navbar-nav flex-column" id="sideNavbar">
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'seller_dashboard' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-house"></i></span>
+       <span class="nav-link-text">Dashboard</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item mt-6 mb-3">
+   <span class="nav-label">Store Managements</span>
+ </li>
+ <li class="nav-item">
+   <a class="nav-link   " href="{% url 'allProducts' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
+       <span class="nav-link-text">Products</span>
+     </div>
+   </a>
+ </li>
+ <li class="nav-item">
+   <a
+     class="nav-link  collapsed "
+     href="{% url 'allOrders' %}"
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-bag"></i></span>
+       <span class="nav-link-text">Orders</span>
+     </div>
+   </a>
+
+ </li>
+
+ <li class="nav-item">
+   <a
+     class="nav-link active collapsed "
+     href="{% url 'viewCustomers' %}"
+    
+   >
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-people"></i></span>
+       <span class="nav-link-text">Customers</span>
+        </div>
+   </a>
+ </li>
+
+ <li class="nav-item">
+   <a class="nav-link " href="{% url 'allreviews' %}">
+     <div class="d-flex align-items-center">
+       <span class="nav-link-icon"><i class="bi bi-star"></i></span>
+       <span class="nav-link-text">Reviews</span>
+     </div>
+   </a>
+ </li>
+ <!-- Nav item -->
+ 
+</ul>
+</div>
+</div>
+</div>
+</nav>
+<main class="main-content-wrapper">
+    <div class="container">
+        <div class="row mb-8">
+            <div class="col-md-12">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                    <div>
+                        <h2>Customers</h2>
+                        <!-- breacrumb -->
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Customers</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-12 mb-5">
+                <div class="card h-100 card-lg">
+                    <div class="p-6">
+                        <div class="row justify-content-between">
+                            <div class="col-md-4 col-12">
+                                <form class="d-flex" role="search">
+                                    <label for="searchCustomers" class="visually-hidden">Search Customers</label>
+                                    <input class="form-control" type="search" id="searchCustomers" placeholder="Search Customers" aria-label="Search" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="checkAll" />
+                                                <label class="form-check-label" for="checkAll"></label>
+                                            </div>
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Purchase Date</th>
+                                        <th>Phone</th>
+                                        <th>Spent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for customer in customers %}
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="customerOne" />
+                                                <label class="form-check-label" for="customerOne"></label>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="{{customer.customer.photo.url}}" alt="" class="avatar avatar-xs rounded-circle" />
+                                                <div class="ms-2">
+                                                    <a href="#!" class="text-inherit" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">{{customer.customer.name}}</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{customer.customer.email}}</td>
+
+                                        <td>{{customer.date_time}}</td>
+                                        <td>{{customer.customer.phone_no}}</td>
+                                        <td>₹{{ customer.total_cost }}</td>
+                                    </tr>
+
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

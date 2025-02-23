@@ -325,7 +325,7 @@
          {% if messages %}
          {% for message in messages %}
          <div id="alert-{{ forloop.counter }}" 
-         style="position: absolute; top: 15%; right: 20px; opacity: 0; transition: opacity 0.5s ease-in-out;" 
+         style="position: fixed; z-index: 100; top: 15%; right: 20px; opacity: 0; transition: opacity 0.5s ease-in-out;" 
          class='alert 
                  {% if message.tags == "error" %}
                      alert-danger
@@ -354,6 +354,7 @@
                  </script>
          {% endfor %}
      {% endif %}
+     
 
       </footer>
       <!-- Javascript-->
