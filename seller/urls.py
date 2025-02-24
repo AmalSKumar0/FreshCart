@@ -17,5 +17,6 @@ urlpatterns = [
     path('singleOrder/<int:order_id>/',singleOrder,name="singleOrder"),
     path('viewCustomers/',viewCustomers,name="viewCustomers"),
     path('allreviews/',allreviews,name="allreviews"),
-    path('notapproved/',notapproved,name="notapproved")
+    path('notapproved/',notapproved,name="notapproved"),
+    path('selSettings/',selSettings,name="selSettings")
 ]

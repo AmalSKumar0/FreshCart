@@ -167,7 +167,7 @@
                         </div>
                         <div class="list-inline-item me-5 me-lg-0">
                            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                              <img src="{{user.photo.url}}" alt="" class="avatar avatar-md rounded-circle" />
+                              <img src="{{user.photo.url}}" alt="" class="avatar avatar-md rounded-circle" style="object-fit: cover;" />
                            </a>
          
                            <div class="dropdown-menu dropdown-menu-end p-0">
@@ -315,19 +315,19 @@
                            <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
                               <ul class="dropdown-menu">
-                                 <li><a class="dropdown-item" href="signin.html">Sign in</a></li>
-                                 <li><a class="dropdown-item" href="signup.html">Signup</a></li>
+                                 <li><a class="dropdown-item" href="{% url 'login' %}">Sign in</a></li>
+                                 <li><a class="dropdown-item" href="{% url 'customer_reg' %}">Signup</a></li>
                                  {% if login %}
-                                 <li><a class="dropdown-item" href="forgot-password.html">Forgot Password</a></li>
+                                 <li><a class="dropdown-item" href="{% url 'acc_settings' %}">Forgot Password</a></li>
                                  <li class="dropdown-submenu dropend">
-                                    <a class="dropdown-item dropdown-list-group-item dropdown-toggle" href="#">My Account</a>
-                                    <ul class="dropdown-menu">
+                                    <a class="dropdown-item" href="{% url 'acc_settings' %}">My Account</a>
+                                    <!-- <ul class="dropdown-menu">
                                        <li><a class="dropdown-item" href="account-orders.html">Orders</a></li>
                                        <li><a class="dropdown-item" href="account-settings.html">Settings</a></li>
                                        <li><a class="dropdown-item" href="account-address.html">Address</a></li>
                                        <li><a class="dropdown-item" href="account-payment-method.html">Payment Method</a></li>
                                        <li><a class="dropdown-item" href="account-notification.html">Notification</a></li>
-                                    </ul>
+                                    </ul> -->
                                  </li>
                                  {% endif %}
                               </ul>

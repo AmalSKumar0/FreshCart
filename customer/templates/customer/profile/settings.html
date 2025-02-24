@@ -147,7 +147,7 @@
                       <p class="mb-2">Would you like to delete your account?</p>
                       <p class="mb-5">This account contain 12 orders, Deleting your account will remove all the order details associated with it.</p>
                       <!-- btn -->
-                      <a href="#" class="btn btn-outline-danger">I want to delete my account</a>
+                      <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">I want to delete my account</a>
                    </div>
                 </div>
              </div>
@@ -221,5 +221,27 @@
        </div>
     </div>
  </div>
+ <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+   <div class="modal-dialog">
+      <!-- modal content -->
+      <div class="modal-content">
+         <!-- modal header -->
+         <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete Account</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <!-- modal body -->
+         <div class="modal-body">
+            <h6>Are you sure you want to delete this Account?</h6>
+         </div>
+         <!-- modal footer -->
+         <div class="modal-footer">
+            <!-- btn -->
+            <button type="button" class="btn btn-outline-gray-400" data-bs-dismiss="modal">Cancel</button>
+            <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Delete</a>
+         </div>
+      </div>
+   </div>
+</div>
  
 {% endblock %}

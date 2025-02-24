@@ -14,10 +14,9 @@
                      class="card bg-light border-0 rounded-4"
                      style="background-image: url(../assets/images/slider/slider-image-1.jpg); background-repeat: no-repeat; background-size: cover; background-position: right">
                      <div class="card-body p-lg-12">
-                        <h1>Welcome back! FreshCart</h1>
-                        <p>FreshCart is simple & clean design for developer and designer.</p>
-                        <a href="{% url 'add_product' %}" class="btn btn-primary">Add Product</a>
-                     </div>
+                        <h1>Welcome back! Admin {{user.name}}</h1>
+                        <p>FreshCart is simple & clean grocery selling website.</p>
+                         </div>
                   </div>
                </div>
             </div>
@@ -113,9 +112,10 @@
                            </div>
                            <div>
                               <!-- select option -->
-                              <select class="form-select">
-                                 <option selected>2025</option>
-                               
+                              <select class="form-select" onchange="location = this.value;">
+                                 <option value="{% url 'admin_dashboard' %}?period=15_days" {% if period == '15_days' %} selected {% endif %}>15 days</option>
+                                 <option value="{% url 'admin_dashboard' %}?period=4_weeks" {% if period == '4_weeks' %} selected {% endif %}>4 weeks</option>
+                                 <option value="{% url 'admin_dashboard' %}?period=months" {% if period == 'months' %} selected {% endif %}>Months</option>
                               </select>
                            </div>
                         </div>
@@ -334,8 +334,10 @@ var e;
 document.getElementById("revenueChart") &&
 ((e = {
 series: [
- { name: "Total Income", data: [ {% for sale in daily_sales %} {{sale.income}},{% endfor %} ] },
- { name: "Total Expense", data: [ {% for sale in daily_sales %} {{sale.expense}},{% endfor %} ] },
+ { name: "New Orders", data: [ {% for sale in daily_sales %} {{sale.order}},{% endfor %} ] },
+ { name: "New customer", data: [ {% for sale in daily_sales %} {{sale.customer}},{% endfor %} ] },
+ { name: "New Seller", data: [ {% for sale in daily_sales %} {{sale.seller}},{% endfor %} ] },
+
 ],
 labels: [
 {% for sale in daily_sales %} '{{sale.day}}',{% endfor %}
@@ -343,7 +345,7 @@ labels: [
  chart: { height: 350, type: "area", toolbar: { show: !1 } },
  dataLabels: { enabled: !1 },
  markers: { size: 5, hover: { size: 6, sizeOffset: 3 } },
- colors: ["#0aad0a", "#ffc107"],
+ colors: ["#0aad0a", "#ffc107","#016bf8"],
  stroke: { curve: "smooth", width: 2 },
  grid: { borderColor: window.theme.gray300 },
  xaxis: {

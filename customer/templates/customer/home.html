@@ -177,13 +177,13 @@
                         <div>
                             <!-- rating -->
                             <small class="text-warning">
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-fill"></i>
-                                <i class="bi bi-star-half"></i>
+                                <i class="bi bi-star{% if product.rating > 0 %}-fill{% endif %}"></i>
+                                <i class="bi bi-star{% if product.rating > 1 %}-fill{% endif %}"></i>
+                                <i class="bi bi-star{% if product.rating > 2 %}-fill{% endif %}"></i>
+                                <i class="bi bi-star{% if product.rating > 3 %}-fill{% endif %}"></i>
+                                <i class="bi bi-star{% if product.rating > 4 %}-fill{% endif %}"></i>
                             </small>
-                            <span class="text-muted small">4.5(149)</span>
+                            <span class="text-muted small">{{product.rating}}({{product.rcount}})</span>
                         </div>
                         <!-- price -->
                         <div class="d-flex justify-content-between align-items-center mt-3">
@@ -324,16 +324,16 @@
                             <!-- title -->
                             <h2 class="fs-6"><a href="{% url 'item' product.id %}" class="text-inherit text-decoration-none">{{ product.name }}</a></h2>
                             <div>
-                               <!-- rating -->
-                               <small class="text-warning">
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-half"></i>
-                               </small>
-                               <span class="text-muted small">4.5(140)</span>
-                            </div>
+                              <!-- rating -->
+                              <small class="text-warning">
+                                  <i class="bi bi-star{% if product.rating > 0 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 1 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 2 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 3 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 4 %}-fill{% endif %}"></i>
+                              </small>
+                              <span class="text-muted small">{{product.rating}}({{product.rcount}})</span>
+                          </div>
                             <!-- price -->
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                <div>

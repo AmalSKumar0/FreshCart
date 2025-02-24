@@ -49,10 +49,24 @@ def shop_home(request):
         products = products.filter(category=Category.objects.get(id=category))
         category=Category.objects.get(id=category)
 
+    for product in products:
+        rating = 0
+        count = 0
+        reviews = Review.objects.filter(product = product.id)
+        for review in reviews:
+            count+=1
+            rating+=review.rating
+        if rating > 0:
+            rating = rating/count
+        product.rating = rating
+        product.rcount = count
+
     count = len(products)
+
     paginator = Paginator(products, 12)  
     page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page_obj = paginator.get_page(page_number)    
+
     return render(request, 'customer/shop-wide.html', {
         'categories': categories,
         'products': page_obj,
@@ -75,6 +89,7 @@ def add_to_cart(request):
         cart_item, created = Cart.objects.get_or_create(user=user, product=product, price=price, weight=Weight)
         cart_item.quantity += quantity
         product.stock -= quantity
+        product.save()
         cart_item.save()
         
         messages.success(request, "Product added to cart.")
@@ -98,9 +113,13 @@ def update_cart(request):
     if request.method == "POST":
         cart_items = Cart.objects.filter(user=user)
         for item in cart_items:
-            item.quantity = int(request.POST.get("quantity_" + str(item.id)))
+            edited=int(request.POST.get("quantity_" + str(item.id), 0))
+            product = Product.objects.get(id=item.product.id)
+            product.stock+=item.quantity-edited
+            product.save()
+            item.quantity = edited
             item.save()
-        messages.success(request, "Cart updates")
+        messages.success(request, "Cart updated")
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
     messages.error(request, "failed")
     return HttpResponse("Invalid request.")
@@ -189,15 +208,18 @@ def add_address(request):
         city = request.POST.get('city')
         state = request.POST.get('state')
         postal_code = request.POST.get('postal_code') 
-        is_primary = request.POST.get('is_primary') == 'True'
-
+        if request.POST.get('is_primary') == 'True':
+            obj = Address.objects.filter(user=user,is_primary=True).first()
+            if obj:
+                obj.is_primary = False
+                obj.save()
         Address.objects.create(
             user = user,
             street = street,
             city = city,
             state = state,
             postal_code = postal_code,
-            is_primary = is_primary,
+            is_primary = request.POST.get('is_primary') == 'True',
         )
     messages.success(request, "Address added")
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
@@ -280,9 +302,13 @@ def deleteAddress(request):
 def acc_orders(request):
     user = User.objects.get(id=request.session.get("userid"))
     ordered_items = Order.objects.filter(buyer=user)
+    from django.core.paginator import Paginator
+    paginator = Paginator(ordered_items, 6)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     return render(request,'customer/profile/account_orders.html'
                   ,{
-                      'ordered_items' : ordered_items
+                      'ordered_items' : page_obj,'page_obj':page_obj,'count':ordered_items.count()
                   })
 
 def notifications(request):

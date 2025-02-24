@@ -55,7 +55,7 @@
                          </ul>
                       </div>
                       <!-- rating -->
-                      <div class="mb-8">
+                      <div class="mb-8" style="display: none;">
                          <h5 class="mb-3">Rating</h5>
                          <div>
                             <!-- form check -->
@@ -189,7 +189,7 @@
                 <!-- row -->
                 <div class="row g-4 row-cols-xl-3 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
                    <!-- col -->
-                    {% for product in products %}
+                    {% for product in page_obj %}
                    <div class="col">
                       <!-- card -->
                       <div class="card card-product">
@@ -219,16 +219,16 @@
                             </div>
                             <h2 class="fs-6"><a href="shop-single.html" class="text-inherit text-decoration-none">{{ product.name }}</a></h2>
                             <div>
-                               <!-- rating -->
-                               <small class="text-warning">
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-fill"></i>
-                                  <i class="bi bi-star-half"></i>
-                               </small>
-                               <span class="text-muted small">4.5(149)</span>
-                            </div>
+                              <!-- rating -->
+                              <small class="text-warning">
+                                  <i class="bi bi-star{% if product.rating > 0 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 1 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 2 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 3 %}-fill{% endif %}"></i>
+                                  <i class="bi bi-star{% if product.rating > 4 %}-fill{% endif %}"></i>
+                              </small>
+                              <span class="text-muted small">{{product.rating}}({{product.rcount}})</span>
+                          </div>
                             <!-- price -->
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                <div>

@@ -10,6 +10,7 @@ from datetime import timedelta
 from decimal import Decimal
 from django.contrib import messages
 from django.db.models.functions import TruncMinute
+from django.core.paginator import Paginator
 
 
 def seller_dashboard(request):
@@ -67,20 +68,39 @@ def seller_dashboard(request):
                 additional_charges += 50
 
     monthly_earnings += additional_charges
+    period = request.GET.get('period', '15_days')
+    daily_stat = []
+    days_to_skip = 1
+    week = 0
 
-    daily_sales = []
-    for day in range(15):
+    if period == '15_days':
+        days_range = 15
+    elif period == '4_weeks':
+        days_range = 35
+        days_to_skip = 7
+        week = 5
+    elif period == 'months':
+        days_range = 30 * 7 
+        days_to_skip = 30
+        week = 7
+    else:
+        days_range = 15  # Default to 15 days if period is not recognized
+ 
+    
+    for day in range(0, days_range, days_to_skip):
+        if period != '15_days' and day==0:
+            continue
+        week -= 1
         date = timezone.now() - timedelta(days=day)
         day_start = date.replace(hour=0, minute=0, second=0, microsecond=0)
-        day_end = day_start + timedelta(days=1)
+        day_end = day_start + timedelta(days=days_to_skip)
 
+        day_income = 0
+        day_expense = 0
         day_orders = Order.objects.filter(
             seller=user,
             date_time__range=(day_start, day_end)
         )
-
-        day_income = 0
-        day_expense = 0
         unique_buyers = set()
         for order in day_orders:
             if order.buyer.id not in unique_buyers:
@@ -97,14 +117,23 @@ def seller_dashboard(request):
             day_income += order.price
             day_expense += (order.price * Decimal("0.8")) + (order.quantity * Decimal("5"))
 
-        daily_sales.append({
-            'day': day_start.date(),
+        if period == '15_days':
+            day_label = day_start.date()
+        
+        elif period == '4_weeks':
+            day_label = 'Week ' + str(week)
+        elif period == 'months':
+            day_label = 'Month ' + str(week)
+        else:
+           day = day_start.date() 
+        daily_stat.append({
+            'day': day_label,
             'income': day_income,
             'expense': day_expense
         })
+    daily_stat = sorted(daily_stat, key=lambda x: x['day'])
 
-    daily_sales = sorted(daily_sales, key=lambda x: x['day'])
-
+    
     total_orders = Order.objects.filter(seller=user).count()
     pending_orders = Order.objects.filter(seller=user, status='processing').count()
     cancelled_orders = Order.objects.filter(seller=user, status='cancelled').count()
@@ -134,7 +163,7 @@ def seller_dashboard(request):
         'pending_orders': pending_orders, 'PendingPer': int(PendingPer),
         'cancelled_orders': cancelled_orders, 'cancelledPer': int(cancelledPer),
         'completed_orders': completed_orders, 'completedPer': int(completedPer),
-        'daily_sales': daily_sales,
+        'daily_sales': daily_stat,
         'total_profit': int(total_profit),'profitPer': int(((total_profit/total_earnings)if total_profit else 0)*100),
         'total_earnings': total_earnings,'eraningPer': 100,
         'total_expence': int(total_expence),'expencePer':int(((total_expence/total_earnings)if total_expence else 0)*100),
@@ -144,9 +173,12 @@ def seller_dashboard(request):
 def allProducts(request):
     vendor = User.objects.get(id=request.session.get("userid"))
     products = Product.objects.filter(vendor=vendor).prefetch_related('images', 'prices')
-    
+    paginator = Paginator(products, 12)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)    
+
     return render(request, 'seller/allProducts.html', {
-        'products': products
+        'products': page_obj,'page_obj':page_obj
     })
 
 def remove_product(request, product_id):
@@ -231,7 +263,10 @@ def notapproved(request):
 def allOrders(request):
     user = User.objects.get(id=request.session.get("userid"))
     orders = Order.objects.filter(seller=user)
-    return render(request,'seller/orders.html',{'orders':orders})
+    paginator = Paginator(orders, 12)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+    return render(request,'seller/orders.html',{'orders':page_obj,'page_obj':page_obj})
 
 def singleOrder(request, order_id):
     user = User.objects.get(id=request.session.get("userid"))
@@ -279,7 +314,20 @@ def viewCustomers(request):
             'date_time': order.date_time,
             'total_cost': total_cost,
             })
-    return render(request,'seller/myCustomers.html',{'customers':customers})
+    paginator = Paginator(customers, 12)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+   
+    return render(request,'seller/myCustomers.html',{'customers':page_obj,'page_obj':page_obj})
 
 def allreviews(request):
-    return render(request,'seller/allreviews.html')
+    user = User.objects.get(id=request.session.get("userid"))
+    reviews = Review.objects.filter(product__vendor=user)
+    paginator = Paginator(reviews, 12)  
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number) 
+   
+    return render(request,'seller/allreviews.html',{'reviews':page_obj,'page_obj':page_obj})
+
+def selSettings(request):
+    return render(request,'seller/settings.html')

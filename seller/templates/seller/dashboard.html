@@ -252,10 +252,11 @@ Home - FreshCart
                                   </div>
                                   <div>
                                      <!-- select option -->
-                                     <select class="form-select">
-                                        <option selected>2025</option>
-                                      
-                                     </select>
+                                     <select class="form-select" onchange="location = this.value;">
+                                       <option value="{% url 'seller_dashboard' %}?period=15_days" {% if period == '15_days' %} selected {% endif %}>15 days</option>
+                                       <option value="{% url 'seller_dashboard' %}?period=4_weeks" {% if period == '4_weeks' %} selected {% endif %}>4 weeks</option>
+                                       <option value="{% url 'seller_dashboard' %}?period=months" {% if period == 'months' %} selected {% endif %}>Months</option>
+                                    </select>
                                   </div>
                                </div>
                                <!-- chart -->
