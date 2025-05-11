@@ -7,6 +7,12 @@ from customer.models import *
 from django.shortcuts import redirect
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, get_object_or_404
+from collections import defaultdict
+from django.shortcuts import get_object_or_404, redirect
+from django.db.models import Sum, F
+from django.db import transaction
+from django.utils import timezone
+from datetime import timedelta
 
 def customer_reg(request):
     if request.method == "POST":
@@ -78,7 +84,11 @@ def shop_home(request):
 
 
 def add_to_cart(request):
-    user = User.objects.get(id=request.session.get("userid"))
+    if 'userid' in request.session:
+        user = User.objects.get(id=request.session.get('userid'))
+    else:
+        return redirect('login')
+
     if request.method == "POST":
         product_id = request.POST.get('product_id')
         product = Product.objects.get(id=product_id)
@@ -86,22 +96,23 @@ def add_to_cart(request):
         price = float(request.POST.get('price'))
         Weight = request.POST.get('weight')
         
-        cart_item, created = Cart.objects.get_or_create(user=user, product=product, price=price, weight=Weight)
+        cart_item, created = UserCart.objects.get_or_create(user=user, product=product, price=price, weight=Weight)
         cart_item.quantity += quantity
         product.stock -= quantity
         product.save()
         cart_item.save()
         
         messages.success(request, "Product added to cart.")
-        return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+        return redirect(request.META.get('HTTP_REFERER') or '/')
     messages.error(request, "Product not added to cart.")
     return HttpResponse("Invalid request.")
 
 
 def remove_cart(request, cart_id):
     if request.method == "POST":
-       item_deleted = Cart.objects.get(id=cart_id)
+       item_deleted = UserCart.objects.get(id=cart_id)
        item_deleted.product.stock += item_deleted.quantity
+       item_deleted.product.save()
        item_deleted.delete()
        messages.success(request, "Item removed successfully")
        return JsonResponse({"success": True, "message": "Item removed successfully"})
@@ -111,7 +122,7 @@ def remove_cart(request, cart_id):
 def update_cart(request):
     user = User.objects.get(id=request.session.get("userid"))
     if request.method == "POST":
-        cart_items = Cart.objects.filter(user=user)
+        cart_items = UserCart.objects.filter(user=user)
         for item in cart_items:
             edited=int(request.POST.get("quantity_" + str(item.id), 0))
             product = Product.objects.get(id=item.product.id)
@@ -126,7 +137,7 @@ def update_cart(request):
 
 def user_cart(request):
     user = User.objects.get(id=request.session.get("userid"))
-    cart_items = Cart.objects.filter(user=user)
+    cart_items = UserCart.objects.filter(user=user)
     cart_total = sum([item.price * item.quantity for item in cart_items])
     shipping = 0
     if cart_total < 500:
@@ -179,7 +190,7 @@ def checkout(request):
         PrimaryAddresses = None
 
     addresses = Address.objects.filter(user=user, is_primary=False)
-    cart_items = Cart.objects.filter(user=user)
+    cart_items = UserCart.objects.filter(user=user)
     cart_total = sum([item.price * item.quantity for item in cart_items])
     shipping = 0
     if cart_total < 500:
@@ -226,29 +237,76 @@ def add_address(request):
 
 
 def order(request):
-    user = User.objects.get(id=request.session.get("userid"))
-    if request.method=="POST":
-        payment = request.POST.get('flexRadioDefault')
-        address = Address.objects.get(id=request.POST.get('address'))
-        status = 'processing'
+    if request.method != "POST":
+        return redirect('home')
 
-        
+    userid = request.session.get("userid")
+    if not userid or not User.objects.filter(id=userid).exists():
+        messages.error(request, "User not authenticated or session expired.")
+        return redirect('login') 
 
-        cart_items = Cart.objects.filter(user=user)
-        for item in cart_items:
-            Order.objects.create(
-                buyer = user,
-                seller = item.product.vendor,
-                product = item.product,
-                quantity = item.quantity,
-                weight = item.weight,
-                price = item.price,
-                location = address,
-                payment_method = payment,
-                status = status,
-            )
-            item.delete()
+    user = get_object_or_404(User, id=userid)
+
+    payment = request.POST.get('flexRadioDefault')
+    
+    try:
+        address = get_object_or_404(Address, id=request.POST.get('address'), user=user)
+    except:
+        messages.error(request, "Invalid or missing address.")
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    cart_items = UserCart.objects.filter(user=user)
+
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect('home')
+
+    total_cost = cart_items.aggregate(
+        total_cost=Sum(F('price') * F('quantity'))
+    )['total_cost'] or 0
+
+    # Group by vendor
+    seller_items = defaultdict(list)
+    for item in cart_items:
+        seller_items[item.product.vendor].append(item)
+
+    count = len(seller_items)
+    delivery_charge = 0
+    if total_cost < 500 and count > 0:
+        delivery_charge = 50 / count
+
+    try:
+        with transaction.atomic():
+            for seller, items in seller_items.items():
+                new_cart = Cart.objects.create(
+                    buyer=user,
+                    seller=seller,
+                    location=address,
+                    payment_method=payment,
+                    status='processing',
+                    delivery_charge=delivery_charge
+                )
+
+                for item in items:
+                    CartProduct.objects.create(
+                        cart=new_cart,
+                        product=item.product,
+                        quantity=item.quantity,
+                        weight=item.weight,
+                        price=item.price
+                    )
+
+                new_cart.generate_otp()  # assuming this method is defined
+
+            cart_items.delete()
+
+    except Exception as e:
+        messages.error(request, f"An error occurred while processing your order: {str(e)}")
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+    messages.success(request, "Order placed successfully!")
     return redirect('home')
+
 
 
 # ------------------- profile -------------------
@@ -301,29 +359,46 @@ def deleteAddress(request):
 
 def acc_orders(request):
     user = User.objects.get(id=request.session.get("userid"))
-    ordered_items = Order.objects.filter(buyer=user)
-    from django.core.paginator import Paginator
-    paginator = Paginator(ordered_items, 6)  
+    
+    ordered_carts = Cart.objects.filter(buyer=user).order_by('-date_time')  # optional: latest first
+    
+    paginator = Paginator(ordered_carts, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    return render(request,'customer/profile/account_orders.html'
-                  ,{
-                      'ordered_items' : page_obj,'page_obj':page_obj,'count':ordered_items.count()
-                  })
+
+    return render(request, 'customer/profile/account_orders.html', {
+        'ordered_items': page_obj,  # these are carts now
+        'page_obj': page_obj,
+        'count': ordered_carts.count()
+    })
 
 def notifications(request):
-    return render(request,'customer/profile/notifications.html')
+    user = User.objects.get(id=request.session.get("userid"))
+    messages = Message.objects.filter(user=user).order_by('-sent_at')
+
+    for message in messages:
+        message.expired = message.is_expired()
+
+    return render(request, 'customer/profile/notifications.html', {
+        'Notmessages': messages,
+    })
 
 
 def cancel_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    order.status = 'cancelled' 
-    order.save()  
-    messages.success(request, "Order cancelled")
+    order = get_object_or_404(Cart, id=order_id)
+    order.status = 'cancelled'
+    order.save()
+
+    for item in CartProduct.objects.filter(cart=order):
+        product = item.product
+        product.stock += item.quantity
+        product.save()
+
+    messages.success(request, "Order cancelled and items restocked")
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 def delete_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
+    order = get_object_or_404(Cart, id=order_id)
     order.delete() 
     messages.success(request, "Order Deleted")
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
@@ -350,6 +425,6 @@ def delete_review(request,rid):
 
 def allOrders(request):
     user = User.objects.get(id=request.session.get("userid"))
-    orders = Order.objects.filter(seller=user)
+    orders = Cart.objects.filter(seller=user)
     return render(request,'seller/orders.html',{'orders':orders})
 

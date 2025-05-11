@@ -83,61 +83,35 @@
                    <div class="table-responsive-xxl border-0">
                       <!-- Table -->
                       {% if ordered_items %}
-                      <table class="table mb-0 text-nowrap table-centered">
-                         <!-- Table Head -->
-                         <thead class="bg-light">
-                            <tr>
-                               <th>&nbsp;</th>
-                               <th>Product</th>
-                               <th>Order</th>
-                               <th>Date</th>
-                               <th>Items</th>
-                               <th>Status</th>
-                               <th>Amount</th>
+                      {% for cart in ordered_items %}
+  <div class="order-box">
+    <h4>Order ID: {{ cart.id }} | Date: {{ cart.date_time }}</h4>
+    <p>Status: {% if cart.status == 'delivered' %}
+      <span class="badge bg-success">Completed</span>
+      {% elif cart.status == 'cancelled' %}
+      <span class="badge bg-danger">Cancelled</span>
+      {% elif cart.status == 'processing' %}
+      <span class="badge bg-warning">processing</span>
+      {% elif cart.status == 'shipped' %}
+      <span class="badge bg-warning">shipped</span>
+      {% else %}
+      <span class="badge bg-warning">{{ cart.status }}</span>
+      {% endif %}<td class="text-muted align-middle border-top-0">
+         {% if cart.status == 'delivered' or cart.status == 'cancelled' %}
+           <a href="{% url 'delete_order' cart.id %}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">delete</a>
+         {% else %}
+           <a href="{% url 'cancel_order' cart.id %}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">cancel</a>
+         {% endif %}
+        </td></p>
+    <p>Payment: {{ cart.get_payment_method_display }}</p>
 
-                               <th>Actions</th>
-                            </tr>
-                         </thead>
-                         <tbody>
-                           
-                            <!-- Table body -->
-                             {% for item in ordered_items %}
-                            <tr>
-                               <td class="align-middle border-top-0 w-0">
-                                  <a href="{% url 'item' item.product.id %}"><img src="{{ item.product.images.first.image.url }}" alt="Ecommerce" class="icon-shape icon-xl" /></a>
-                               </td>
-                               <td class="align-middle border-top-0">
-                                  <a href="{% url 'item' item.product.id %}" class="fw-semibold text-inherit">
-                                     <h6 class="mb-0">{{ item.product.name }}</h6>
-                                  </a>
-                                  <span><small class="text-muted">{{item.weight}}</small></span>
-                               </td>
-                               <td class="align-middle border-top-0">
-                                  <a href="#" class="text-inherit">#ORID{{item.id}}</a>
-                               </td>
-                               <td class="align-middle border-top-0">{{item.date_time}}</td>
-                               <td class="align-middle border-top-0">{{item.quantity}}</td>
-                               <td class="align-middle border-top-0">
-                                 {% if item.status == 'delivered' %}
-                                 <span class="badge bg-success">Completed</span>
-                                 {% elif item.status == 'cancelled' %}
-                                 <span class="badge bg-danger">Cancelled</span>
-                                 {% else %}
-                                 <span class="badge bg-warning">{{item.status}}</span>
-                                 {% endif %}
-                               </td>
-                               <td class="align-middle border-top-0">₹{{item.price}}</td>
-                               <td class="text-muted align-middle border-top-0">
-                                 {% if item.status == 'delivered' or item.status == 'cancelled' %}
-                                   <a href="{% url 'delete_order' item.id %}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">delete</a>
-                                 {% else %}
-                                   <a href="{% url 'cancel_order' item.id %}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="View">cancel</a>
-                                 {% endif %}
-                                </td>   
-                              </tr>                   
-                            {% endfor %}
-                         </tbody>
-                      </table>
+    <ul>
+      {% for item in cart.cart_products.all %}
+        <li>{{ item.product.name }} - Qty: {{ item.quantity }} - ₹{{ item.price }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endfor %}
                       <div class="border-top d-md-flex justify-content-between align-items-center p-6">
                         <span>Showing {{count}} result</span>
                         <nav>
@@ -177,6 +151,7 @@
                           </nav>
                      </div>
                       {% endif %}
+
                    </div>
                 </div>
              </div>

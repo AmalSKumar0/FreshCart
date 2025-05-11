@@ -245,6 +245,16 @@ class='alert
 						</div>
 					</a>
 				</li>
+
+				<li class="nav-item">
+					<a class="nav-link {% if current_page == 8 %}active{%endif%}" href="{% url 'agent_list' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-truck"></i></span>
+							<span class="nav-link-text">Delivery Agent</span>
+						</div>
+					</a>
+				</li>
+
 				<li class="nav-item">
 					<a
 						class="nav-link {% if current_page == 6 %}active{%endif%} "
@@ -362,6 +372,7 @@ class='alert
 
 </div>
 
+
 <!-- Libs JS -->
 <!-- <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script> -->
 <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
@@ -372,6 +383,7 @@ class='alert
 
 <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
 <script src="{% static 'js/vendors/chart.js' %}"></script>
+<script src="{% static 'libs/flatpickr/dist/flatpickr.min.js' %}"></script>
 </body>
 
 <!-- Mirrored from freshcart.codescandy.com/dashboard/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Nov 2024 06:08:53 GMT -->

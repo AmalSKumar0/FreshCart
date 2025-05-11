@@ -118,11 +118,35 @@
                         </div>
                         {% endif %}
                      </div>
+
+                     <style>
+
+                        .form-cont {
+                           display: flex;
+                           justify-content: space-between;
+                        }
+
+                        .form-left {
+                           width: 48%;
+                        }
+
+                        .form-right {
+                           width: 48%;
+                        }
+
+                        .form-cont .form-control {
+                           margin-bottom: 1rem;
+                        }
+
+                     </style>
                      
                      <!-- form -->
                      <form class="needs-validation" novalidate method="post" enctype="multipart/form-data">
                         {% csrf_token %}
+                        
                         <div class="row g-3">
+                           <div class="form-cont">
+                              <div class="form-left">
                             <!-- First Name -->
                             <div class="col">
                                 <label for="formSignupfname" class="form-label visually-hidden">Vendor name</label>
@@ -143,7 +167,12 @@
                                 <label for="formSignupPhone" class="form-label visually-hidden">Phone Number</label>
                                 <input type="tel" class="form-control" id="formSignupPhone" name="phone_no" placeholder="Phone Number" required />
                                 <div class="invalid-feedback">Please enter a valid phone number.</div>
-                            </div>
+                            </div> 
+                            <div class="col-12">
+                              <label  class="form-label visually-hidden">Address</label>
+                              <input type="text" class="form-control"  name="Address" placeholder="Address" required />
+                             
+                          </div>
                     
                             <!-- Password -->
                             <div class="col-12">
@@ -156,13 +185,32 @@
                                     </div>
                                 </div>
                             </div>
-                    
+                           </div>
+                           <div class="form-right">
+                              <div class="col-12">
+                                 <label class="form-label visually-hidden">GSTIN</label>
+                                 <input type="text" class="form-control" name="gstin" placeholder="GSTIN" required />
+                                 </div> 
+                                 <div class="col-12">
+                                    <label class="form-label visually-hidden">Pan card</label>
+                                    <input type="text" class="form-control" name="pan" placeholder="Pan card" required />
+                                    </div> <div class="col-12">
+                                       <label class="form-label visually-hidden">Bank account no:</label>
+                                       <input type="text" class="form-control" name="bank" placeholder="Bank account no" required />
+                                       </div> 
+                                       <div class="col-12">
+                                          <label class="form-label visually-hidden">IFSC code</label>
+                                          <input type="text" class="form-control" name="ifsc" placeholder="IFSC code" required />
+                                          </div> 
+                                          <div class="col-12">
+                                             <label for="formSignupPhoto" class="form-label">Upload Profile Picture</label>
+                                             <input type="file" class="form-control" id="formSignupPhoto" name="photo" accept="image/*" />
+                                         </div>
                             <!-- Profile Photo -->
-                            <div class="col-12">
-                                <label for="formSignupPhoto" class="form-label">Upload Profile Picture</label>
-                                <input type="file" class="form-control" id="formSignupPhoto" name="photo" accept="image/*" />
-                            </div>
-                    
+                           
+                           </div>
+                        </div>
+                        
                             <!-- Submit Button -->
                             <div class="col-12 d-grid">
                                 <button type="submit" class="btn btn-primary">Register as Vendor</button>
@@ -177,6 +225,7 @@
                                     <a href="#!">Privacy Policy</a>
                                 </small>
                             </p>
+                           
                         </div>
                     </form>                    
                   </div>

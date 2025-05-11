@@ -1,0 +1,100 @@
+{% extends 'delivery/delbase.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+
+
+<main class="main-content-wrapper">
+    <section class="container">
+       <!-- row -->
+       <div class="row mb-8">
+          <div class="col-md-12">
+             <!-- card -->
+             <div
+                class="card bg-light border-0 rounded-4"
+                style="background-image: url(../assets/images/slider/slider-image-1.jpg); background-repeat: no-repeat; background-size: cover; background-position: right">
+                <div class="card-body p-lg-12">
+                   <h1>Welcome back! {{user.name}}</h1>
+                     </div>
+             </div>
+          </div>
+       </div>
+       <!-- table -->
+       <div class="table-responsive-xl mb-6 mb-lg-0">
+          <div class="row flex-nowrap pb-3 pb-lg-0">
+             <div class="col-lg-4 col-12 mb-6">
+                <!-- card -->
+                <div class="card h-100 card-lg">
+                   <!-- card body -->
+                   <div class="card-body p-6">
+                      <!-- heading -->
+                      <div class="d-flex justify-content-between align-items-center mb-6">
+                         <div>
+                            <h4 class="mb-0 fs-5">Your Deliveries</h4>
+                         </div>
+                         <div class="icon-shape icon-md bg-light-danger text-dark-danger rounded-circle">
+                            <i class="bi bi-truck fs-5"></i>
+                         </div>
+                      </div>
+                      <!-- project number -->
+                      <div class="lh-1">
+                         <h1 class="mb-2 fw-bold fs-2">{{total_delivered}}</h1>
+                         <span>
+                            <span class="text-dark me-1">{{day7}}</span>
+                            delivered In 7 Days
+                         </span>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-lg-4 col-12 mb-6">
+                <!-- card -->
+                <div class="card h-100 card-lg">
+                   <!-- card body -->
+                   <div class="card-body p-6">
+                      <!-- heading -->
+                      <div class="d-flex justify-content-between align-items-center mb-6">
+                         <div>
+                            <h4 class="mb-0 fs-5">Your Income</h4>
+                         </div>
+                         <div class="icon-shape icon-md bg-light-warning text-dark-warning rounded-circle">
+                            <i class="bi bi-cash fs-5"></i>
+                         </div>
+                      </div>
+                      <!-- project number -->
+                      <div class="lh-1">
+                         <h1 class="mb-2 fw-bold fs-2">{{money}}</h1>
+                         <span>
+                            <span class="text-dark me-1">{{money7}}</span>
+                            Income In 7 Days
+                         </span>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="col-lg-4 col-12 mb-6">
+                <!-- card -->
+                <div class="card h-100 card-lg">
+                   <!-- card body -->
+                   <div class="card-body p-6">
+                      <!-- heading -->
+                      <div class="d-flex justify-content-between align-items-center mb-6">
+                         <div>
+                            <h4 class="mb-0 fs-5">Deliveries available </h4>
+                         </div>
+                         <div class="icon-shape icon-md bg-light-info text-dark-info rounded-circle">
+                            <i class="bi bi-truck fs-5"></i>
+                         </div>
+                      </div>
+                      <!-- project number -->
+                      <div class="lh-1">
+                         <h1 class="mb-2 fw-bold fs-2">{{allAv}}</h1>
+                         <span>
+                           Across the platform
+                         </span>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+{% endblock %}

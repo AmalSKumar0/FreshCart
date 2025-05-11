@@ -21,7 +21,13 @@ urlpatterns = [
     path('delete_user/<int:user_id>/',delete_user,name="delete_user"),
     path('approveSeller/<int:user_id>/',approveSeller,name="approveSeller"),
     path('approveAll/',approveAll,name="approveAll"),
+    path('approveAllAgent/',approveAllAgent,name="approveAllAgent"),
     path('accountSettings/',accountSettings,name="accountSettings"),
     path('delete_cat/<int:id>', delete_cat, name="delete_cat"),
-    
+    path('agent_list/',agent_list,name="agent_list"),
+    path('newAgent/',newAgent,name="newAgent"),
+    path('delivery-edit/<int:user_id>',deliveryEdit,name="deliveryEdit"),
+    path('Customer-edit/<int:user_id>',editCustomer,name="editCustomer"),
+    path('Vendor-edit/<int:user_id>',editVendor,name="editVendor"),
+    path('productEdit/<int:pid>',productEdit,name="productedit")
 ]

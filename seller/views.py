@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from administrator.models import *
 from .models import *   
 from customer.models import *
@@ -13,161 +13,97 @@ from django.db.models.functions import TruncMinute
 from django.core.paginator import Paginator
 
 
+
 def seller_dashboard(request):
     user = User.objects.get(id=request.session.get("userid"))
-    allOrders = Order.objects.filter(seller=user)
-    additional_charges = 0
-    unique_buyers = set()
-    for order in allOrders:
-        if order.buyer.id not in unique_buyers:
-            unique_buyers.add(order.buyer.id)
-            buyer_orders = Order.objects.filter(
-                seller=user,
-                buyer=order.buyer,
-            )
-            total_cost = sum(item.price * item.quantity for item in buyer_orders)
-            if total_cost < 500:
-                additional_charges += 50
+    allOrders = Cart.objects.filter(seller=user)
 
     start_date = timezone.now().replace(day=1)
     end_date = start_date + timedelta(days=31)
 
-    monthly_earnings = Order.objects.filter(
-        seller=user,
-        date_time__range=(start_date, end_date)
-    ).aggregate(total_earnings=Sum(F('price') * F('quantity')))['total_earnings'] or 0
-
-    total_earnings = Order.objects.filter(seller=user).aggregate(
-        total_earnings=Sum(F('price') * F('quantity'))
-    )['total_earnings'] or 0
-
-    total_earnings += additional_charges
-    total_expence = 0
-    for order in allOrders:
-         total_expence += (order.price * Decimal("0.8")) + (order.quantity * Decimal("5"))
-
-    total_profit = total_earnings - total_expence
-      
-    orders = Order.objects.filter(
-        seller=user,
-        date_time__range=(start_date, end_date)
-    )
-
-    additional_charges = 0
-    unique_buyers = set()
-    for order in orders:
-        if order.buyer.id not in unique_buyers:
-            unique_buyers.add(order.buyer.id)
-            buyer_orders = Order.objects.filter(
-                seller=user,
-                buyer=order.buyer,
-                date_time__range=(start_date, end_date)
-            )
-            total_cost = sum(item.price * item.quantity for item in buyer_orders)
-            if total_cost < 500:
-                additional_charges += 50
-
-    monthly_earnings += additional_charges
-    period = request.GET.get('period', '15_days')
-    daily_stat = []
-    days_to_skip = 1
-    week = 0
-
-    if period == '15_days':
-        days_range = 15
-    elif period == '4_weeks':
-        days_range = 35
-        days_to_skip = 7
-        week = 5
-    elif period == 'months':
-        days_range = 30 * 7 
-        days_to_skip = 30
-        week = 7
-    else:
-        days_range = 15  # Default to 15 days if period is not recognized
- 
+    current_month_orders = Cart.objects.filter(seller=user, date_time__range=(start_date, end_date))
+    monthly_earnings = 0
+    for order in current_month_orders:
+        monthly_earnings += order.delivery_charge
+        for cp in order.cart_products.all():
+            monthly_earnings += cp.price * cp.quantity
+        if order.status == 'delivered':
+            monthly_earnings = monthly_earnings - 50
     
+
+    # Daily/Weekly/Monthly Stat
+    period = request.GET.get('period', '15_days')
+    if period == '15_days':
+        days_range, days_to_skip, week = 15, 1, 0
+    elif period == '4_weeks':
+        days_range, days_to_skip, week = 35, 7, 5
+    elif period == 'months':
+        days_range, days_to_skip, week = 30 * 7, 30, 7
+    else:
+        days_range, days_to_skip, week = 15, 1, 0
+
+    daily_stat = []
+
     for day in range(0, days_range, days_to_skip):
-        if period != '15_days' and day==0:
+        if period != '15_days' and day == 0:
             continue
         week -= 1
-        date = timezone.now() - timedelta(days=day)
-        day_start = date.replace(hour=0, minute=0, second=0, microsecond=0)
+        day_start = (timezone.now() - timedelta(days=day)).replace(hour=0, minute=0, second=0, microsecond=0)
         day_end = day_start + timedelta(days=days_to_skip)
+
+        day_orders = Cart.objects.filter(seller=user, date_time__range=(day_start, day_end))
 
         day_income = 0
         day_expense = 0
-        day_orders = Order.objects.filter(
-            seller=user,
-            date_time__range=(day_start, day_end)
-        )
-        unique_buyers = set()
         for order in day_orders:
-            if order.buyer.id not in unique_buyers:
-                unique_buyers.add(order.buyer.id)
-                buyer_orders = Order.objects.filter(
-                    seller=user,
-                    buyer=order.buyer,
-                    date_time__range=(day_start, day_end)
-                )
-                total_cost = sum(item.price for item in buyer_orders)
-                if total_cost < 500:
-                    day_income += 50
-
-            day_income += order.price
-            day_expense += (order.price * Decimal("0.8")) + (order.quantity * Decimal("5"))
-
+            order.items = order.cart_products.all()
+            for item in order.items:
+                day_income  += item.quantity * item.price
+            day_income += order.delivery_charge
+            if order.status == 'delivered':
+                day_expense += 50
+        
         if period == '15_days':
             day_label = day_start.date()
-        
         elif period == '4_weeks':
             day_label = 'Week ' + str(week)
         elif period == 'months':
             day_label = 'Month ' + str(week)
         else:
-           day = day_start.date() 
+            day_label = day_start.date()
+
         daily_stat.append({
             'day': day_label,
             'income': day_income,
             'expense': day_expense
         })
+
     daily_stat = sorted(daily_stat, key=lambda x: x['day'])
 
-    
-    total_orders = Order.objects.filter(seller=user).count()
-    pending_orders = Order.objects.filter(seller=user, status='processing').count()
-    cancelled_orders = Order.objects.filter(seller=user, status='cancelled').count()
-    completed_orders = Order.objects.filter(seller=user, status='delivered').count()
+    total_orders = allOrders.count()
+    pending_orders = allOrders.filter(status__in=['processing', 'shipped']).count()
+    cancelled_orders = allOrders.filter(status='cancelled').count()
+    completed_orders = allOrders.filter(status='delivered').count()
 
     PendingPer = (pending_orders / total_orders) * 100 if total_orders else 0
     cancelledPer = (cancelled_orders / total_orders) * 100 if total_orders else 0
     completedPer = (completed_orders / total_orders) * 100 if total_orders else 0
 
     two_days_ago = timezone.now() - timedelta(days=2)
-    two_day_sales = Order.objects.filter(
-        seller=user,
-        date_time__gte=two_days_ago
-    ).count()
-
-    noofcustomers = Order.objects.filter(seller=user).values('buyer').distinct().count()
-    two_day_customers = Order.objects.filter(
-        seller=user,
-        date_time__gte=two_days_ago
-    ).values('buyer').distinct().count()
+    two_day_sales = Cart.objects.filter(seller=user, date_time__gte=two_days_ago).count()
+    noofcustomers = Cart.objects.filter(seller=user).values('buyer').distinct().count()
+    two_day_customers = Cart.objects.filter(seller=user, date_time__gte=two_days_ago).values('buyer').distinct().count()
 
     return render(request, 'seller/dashboard.html', {
         'monthly_earnings': monthly_earnings,
+        'period': period,
         'total_orders': total_orders,
         'noofcustomers': noofcustomers,
-
         'pending_orders': pending_orders, 'PendingPer': int(PendingPer),
         'cancelled_orders': cancelled_orders, 'cancelledPer': int(cancelledPer),
         'completed_orders': completed_orders, 'completedPer': int(completedPer),
         'daily_sales': daily_stat,
-        'total_profit': int(total_profit),'profitPer': int(((total_profit/total_earnings)if total_profit else 0)*100),
-        'total_earnings': total_earnings,'eraningPer': 100,
-        'total_expence': int(total_expence),'expencePer':int(((total_expence/total_earnings)if total_expence else 0)*100),
-    })
+                })
 
 
 def allProducts(request):
@@ -190,6 +126,9 @@ def add_product(request):
     if request.method == "POST":
         category = Category.objects.get(id=request.POST["category"]) 
         vendor = User.objects.get(id=request.session.get("userid"))
+        if Product.objects.filter(product_code = request.POST["product_code"]).exists():
+            messages.success(request, "Product code exist")
+            return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
         product = Product.objects.create(
             name=request.POST["pname"],
             description=request.POST.get("description", ""),
@@ -198,7 +137,7 @@ def add_product(request):
             product_code=request.POST["product_code"],
             availability="available" in request.POST, 
             brand=request.POST.get("brand", ""),
-            is_veg=request.POST.get("ingredients") == "veg",
+            is_veg=request.POST.get("inlineRadioOptions") == "veg",
             vendor=vendor,
         )
 
@@ -239,8 +178,17 @@ def register_vendor(request):
         password = request.POST.get('password')
         photo = request.FILES.get('photo')
 
+        gst = request.POST.get('gstin')
+        pan = request.POST.get('pan')
+        bank_account_number = request.POST.get('bank')
+        ifsc_code = request.POST.get('ifsc')
+        address = request.POST.get('Address')
+
         if User.objects.filter(email=email).exists():
             return render(request, 'seller/signup.html', {'error': 'Email already registered'})
+
+        if SellerDetails.objects.filter(GSTIN=gst).exists():
+            return render(request, 'seller/signup.html', {'error': 'GSTIN already registered'})
         
         if User.objects.filter(phone_no=phone_no).exists():
             return render(request, 'seller/signup.html', {'error': 'Phone no already registered'})
@@ -254,80 +202,146 @@ def register_vendor(request):
             rights='seller', 
             photo=photo
         )
+        SellerDetails.objects.create(
+            seller=user,
+            GSTIN=gst,
+            PancardNo=pan,
+            bank_account_number=bank_account_number,
+            ifsc_code=ifsc_code,
+            Address = address
+        )
+
         return redirect('login')
     return render(request, 'seller/signup.html')
 
 def notapproved(request):
     return render(request,'seller/notapproved.html')
 
+# View: All Orders
 def allOrders(request):
     user = User.objects.get(id=request.session.get("userid"))
-    orders = Order.objects.filter(seller=user)
+    orders = Cart.objects.filter(seller=user).order_by('-date_time')
+    for order in orders:
+        order.items = order.cart_products.all()
+        order.count = order.items.count()
+        order.subTotal = sum(item.quantity * item.price for item in order.items)
+        order.total = order.subTotal + order.delivery_charge
+
     paginator = Paginator(orders, 12)  
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
-    return render(request,'seller/orders.html',{'orders':page_obj,'page_obj':page_obj})
+    return render(request, 'seller/orders.html', {'orders': page_obj, 'page_obj': page_obj})
+
+
 
 def singleOrder(request, order_id):
     user = User.objects.get(id=request.session.get("userid"))
-    order = Order.objects.get(id=order_id)
-    total = order.quantity * order.price
-    other_orders = Order.objects.annotate(
-        minute_time=TruncMinute('date_time')  # Truncate to minute level
-    ).filter(
-        minute_time=TruncMinute(order.date_time),  # Match the minute
-        buyer__id=order.buyer.id,
-        seller = user
-    )
-    
+    order = get_object_or_404(Cart, id=order_id, seller=user)
 
     if request.method == "POST":
-       status = request.POST.get('status')
-       if status:
-          other_orders.update(status=status)
-          return redirect('singleOrder',order_id)
-          
+        status = request.POST.get('status')
+        if status:
+            if status == 'shipped' and order.status != 'shipped':
+                order.delivery_user = None
+            order.status=status
+            order.save()
+            return redirect('singleOrder', order_id=order.id)
+
     order_total = 0
-    shipping = 0
 
-    for item in other_orders:
-        item.subTotal = item.quantity*item.price
-        order_total += (item.quantity*item.price) 
-   
-    if order_total<500:
-        shipping = 50
+    items = order.cart_products.select_related('product')
+    for cart_product in items:
+        cart_product.subTotal = cart_product.quantity * cart_product.price
+        order_total += cart_product.subTotal
 
-    subTotal = order_total + shipping
+    shipping = order.delivery_charge
+    grand_total = order_total + shipping
 
-    return render(request,'seller/orderOverview.html',{'order':order,'total':total,'other_orders':other_orders,'order_total':order_total,'shipping':shipping,'subTotal':subTotal})
+    return render(request, 'seller/orderOverview.html', {
+        'order': order,
+        'other_orders': items,
+        'order_total': order_total,
+        'shipping': shipping,
+        'subTotal': grand_total
+    })
 
+
+# View: Customers List
 def viewCustomers(request):
     user = User.objects.get(id=request.session.get("userid"))
-    orders = Order.objects.filter(seller=user)
+    orders = Cart.objects.filter(seller=user).order_by('-date_time')
+    
     customers = []
+    seen = set()
     for order in orders:
-        customer_orders = Order.objects.filter(buyer=order.buyer, seller=user)
-        total_cost = sum(item.quantity * item.price for item in customer_orders)
-        if not any(c['customer'] == order.buyer for c in customers):
-            customers.append({
-            'customer': order.buyer,
+        buyer = order.buyer
+        if buyer.id in seen:
+            continue
+        buyer_orders = Cart.objects.filter(buyer=buyer, seller=user)
+        total_cost = sum(cp.quantity * cp.price for o in buyer_orders for cp in o.cart_products.all())
+        customers.append({
+            'customer': buyer,
             'date_time': order.date_time,
             'total_cost': total_cost,
-            })
+        })
+        seen.add(buyer.id)
+
     paginator = Paginator(customers, 12)  
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
    
-    return render(request,'seller/myCustomers.html',{'customers':page_obj,'page_obj':page_obj})
+    return render(request, 'seller/myCustomers.html', {'customers': page_obj, 'page_obj': page_obj})
 
+# View: All Reviews
 def allreviews(request):
     user = User.objects.get(id=request.session.get("userid"))
-    reviews = Review.objects.filter(product__vendor=user)
+    reviews = Review.objects.filter(product__vendor=user).order_by('-id')
     paginator = Paginator(reviews, 12)  
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number) 
    
-    return render(request,'seller/allreviews.html',{'reviews':page_obj,'page_obj':page_obj})
+    return render(request, 'seller/allreviews.html', {'reviews': page_obj, 'page_obj': page_obj})
 
+# View: Seller Settings Page
 def selSettings(request):
-    return render(request,'seller/settings.html')
+    return render(request, 'seller/settings.html')
+
+def edit_product(request,product_id):
+    product = Product.objects.get(id=product_id)
+    prices = product.prices.all()
+    if request.method == "POST":
+        category = Category.objects.get(id=request.POST["category"]) 
+        vendor = User.objects.get(id=request.session.get("userid"))
+        if Product.objects.filter(product_code=request.POST["product_code"]).exclude(id=product_id).exists():
+            messages.success(request, "Product code exist")
+            return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+        product.name = request.POST["pname"]
+        product.description = request.POST.get("description", "")
+        product.category = category
+        product.stock = int(request.POST["stock"])
+        product.product_code = request.POST["product_code"]
+        product.availability = "available" in request.POST
+        product.brand = request.POST.get("brand", "")
+        product.is_veg = request.POST.get("inlineRadioOptions") == "veg"
+        product.vendor = vendor
+        product.save()
+
+        weights_prices = [
+            (request.POST["w1"], request.POST["p1"]),
+            (request.POST["w2"], request.POST["p2"]),
+            (request.POST["w3"], request.POST["p3"]),
+        ]
+
+        Price.objects.filter(product=product).delete()
+
+        for weight_id, price in weights_prices:
+            Price.objects.create(
+            product=product,
+            weight=weight_id,
+            price=price,
+            )
+
+        return redirect("allProducts") 
+    cat = Category.objects.all() 
+    return render(request, 'seller/editProduct.html', {'categories': cat,'product': product,'prices': prices})
+

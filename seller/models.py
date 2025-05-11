@@ -3,6 +3,18 @@ from django.utils.timezone import now
 from administrator.models import *
 from seller.models import *
 
+class SellerDetails(models.Model):
+    seller = models.OneToOneField(User, on_delete=models.CASCADE, related_name="seller_details")
+    GSTIN = models.CharField(max_length=15, blank=True, null=True)
+    PancardNo = models.CharField(max_length=10, blank=True, null=True)
+    bank_account_number = models.CharField(max_length=20, blank=True, null=True)
+    ifsc_code = models.CharField(max_length=11, blank=True, null=True)
+    Address = models.TextField()
+
+    def __str__(self):
+        return f"Seller Details for {self.seller.username}"
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)

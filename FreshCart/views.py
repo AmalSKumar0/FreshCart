@@ -7,13 +7,17 @@ from customer.models import *
 
 def home(request):
     if "userid" in request.session:
-       user = User.objects.get(id=request.session.get("userid"))
-       if user.rights == 'seller':
+        user = User.objects.get(id=request.session.get("userid"))
+        if user.rights == 'seller':
            if not user.approved:
               return redirect('logout')
            return redirect('seller_dashboard')
-       elif user.rights == 'admin':
+        elif user.rights == 'admin':
            return redirect('admin_dashboard')
+        elif user.rights == 'delivery':
+           if not user.approved:
+              return redirect('logout')
+           return redirect('agent_dashboard')
     category = Category.objects.all()
     products = Product.objects.all().prefetch_related('images', 'prices')  
     for product in products:
@@ -35,11 +39,11 @@ def home(request):
 def item(request, product_id):
     revPerm = False
     if "userid" in request.session:
-       user = User.objects.get(id=request.session.get("userid"))
-       item = Order.objects.filter(buyer=user,product=product_id)
-       if item:
+        user = User.objects.get(id=request.session.get("userid"))
+        user_carts = Cart.objects.filter(buyer=user, status='delivered')
+        if CartProduct.objects.filter(cart__in=user_carts, product=product_id).exists():
            revPerm = True
-
+           
     reviews = Review.objects.filter(product=product_id)
     product = Product.objects.prefetch_related('images', 'prices').get(id=product_id)
 

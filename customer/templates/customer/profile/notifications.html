@@ -73,6 +73,42 @@
                          </a>
                       </li>
                    </ul>
-                </div>
-             </div>
+                  </div> </div>
+                  <div class="col-lg-9 col-md-8 col-12">
+                     <div class="py-6 p-md-6 p-lg-10">
+                        <div class="mb-6">
+                           <!-- heading -->
+                           <h2 class="mb-0">Notifications</h2>
+                        </div>
+
+                        <div class="mb-10">
+                           <!-- text -->
+                           <div class="border-bottom pb-3 mb-5">
+                              
+                           </div>
+                           <!-- text -->
+                           <div class="d-flex justify-content-between align-items-center mb-6">
+                              <div>
+                                 
+                     
+                              {% for message in Notmessages %}
+                                    <p> {{ message.content }} <a style="position: relative; top:5px;left: 20px;" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></a></p>
+                                    
+                              {% endfor %}
+                            
+                                   
+                              </div>
+                              <!-- checkbox -->
+                              
+                           </div>
+                           
+                        </div>
+                        
+                     </div>
+                  </div>
+
+                 </div>
+                 </div>
+                  
+            
 {% endblock %}

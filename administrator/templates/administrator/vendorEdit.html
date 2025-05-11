@@ -1,0 +1,180 @@
+{% extends 'administrator/baseDash.html' %}
+
+      {% block title %}Home - FreshCart{% endblock %}
+      
+      {% block content %}
+      {% load static %}
+          <main>
+    <!-- section -->
+    <section>
+       <div class="container">
+          <!-- row -->
+          <div class="row">
+             <!-- col -->
+             <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center d-md-none py-4">
+                   <!-- heading -->
+                   <h3 class="fs-5 mb-0">Account Setting</h3>
+                   <!-- button -->
+                   <button
+                      class="btn btn-outline-gray-400 text-muted d-md-none btn-icon btn-sm ms-3"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasAccount"
+                      aria-controls="offcanvasAccount">
+                      <i class="bi bi-text-indent-left fs-3"></i>
+                   </button>
+                </div>
+             </div>
+             <!-- col -->
+           <br>
+              <div class="col-lg-9 col-md-8 col-12">
+                 <div class="py-6 p-md-6 p-lg-10">
+                    <div class="mb-6">
+                       <!-- heading -->
+                       <h2 class="mb-0">Account Setting</h2>
+                    </div>
+                    <div>
+                       <!-- heading -->
+                       <h5 class="mb-4">Account details</h5>
+                       <div class="row">
+                          <div class="col-lg-15">
+                             <!-- form -->
+                             <form action="" method="post">
+                               {% csrf_token %}
+                                <!-- input -->
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Name</label>
+                                            <input type="text" value="{{user.name}}" name="first_name" class="form-control" placeholder="jitu chauhan" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" name="email" value="{{user.email}}" class="form-control" placeholder="example@gmail.com" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input type="text" name="phone_no" value="{{user.phone_no}}" class="form-control" placeholder="Phone number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" name="address" value="{{details.Address}}" class="form-control" placeholder="Address" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">PAN card</label>
+                                            <input type="text" name="pan" value="{{details.PancardNo}}" class="form-control" placeholder="PAN card" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Bank Account no</label>
+                                            <input type="text" name="bank" value="{{details.bank_account_number}}" class="form-control" placeholder="Bank Account no" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">IFSC code</label>
+                                            <input type="text" name="code" value="{{details.ifsc_code}}" class="form-control" placeholder="IFSC code" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <button type="submit" class="btn btn-primary mt-4">Save Details</button>
+                                    </div>
+                                </div>
+                             </form>
+                          </div>
+                       </div>
+                    </div>
+                    <hr class="my-10" />
+                 </div>
+              </div>
+           </div>
+        </div>
+     </section>
+  </main>
+ 
+  <!-- modal -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasAccount" aria-labelledby="offcanvasAccountLabel">
+     <!-- offcanvas header -->
+     <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasAccountLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+     </div>
+     <!-- offcanvas body -->
+     <div class="offcanvas-body">
+        <ul class="nav flex-column nav-pills nav-pills-dark">
+           <!-- nav item -->
+           <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="account-orders.html">
+                 <i class="feather-icon icon-shopping-bag me-2"></i>
+                 Your Orders
+              </a>
+           </li>
+           <!-- nav item -->
+ 
+           <li class="nav-item">
+              <a class="nav-link active" href="account-settings.html">
+                 <i class="feather-icon icon-settings me-2"></i>
+                 Settings
+              </a>
+           </li>
+           <!-- nav item -->
+ 
+           <li class="nav-item">
+              <a class="nav-link" href="account-address.html">
+                 <i class="feather-icon icon-map-pin me-2"></i>
+                 Address
+              </a>
+           </li>
+           <!-- nav item -->
+ 
+           <li class="nav-item">
+              <a class="nav-link" href="account-payment-method.html">
+                 <i class="feather-icon icon-credit-card me-2"></i>
+                 Payment Method
+              </a>
+           </li>
+           <!-- nav item -->
+ 
+           <li class="nav-item">
+              <a class="nav-link" href="account-notification.html">
+                 <i class="feather-icon icon-bell me-2"></i>
+                 Notification
+              </a>
+           </li>
+        </ul>
+        <hr class="my-6" />
+        <div>
+           <!-- navs -->
+           <ul class="nav flex-column nav-pills nav-pills-dark">
+              <!-- nav item -->
+              <li class="nav-item">
+                 <a class="nav-link" href="../index.html">
+                    <i class="feather-icon icon-log-out me-2"></i>
+                    Log out
+                 </a>
+              </li>
+           </ul>
+        </div>
+     </div>
+  </div>
+  
+ </div>
+ {% endblock %}

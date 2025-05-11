@@ -57,10 +57,13 @@
                           <table class="table table-centered table-hover text-nowrap table-borderless mb-0">
                              <thead class="bg-light">
                                 <tr>
-                                   <th>Seller Id</th>
                                    <th>Store Name</th>
                                    <th>Email</th>
                                    <th>Phone no</th>
+                                   <th>GSTIN</th>
+                                   <th>Pan card</th>
+                                   <th>Bank Account</th>
+                                   <th>IFSC code</th>
                                    <th colspan="2">Action</th>
                                    
                                 </tr>
@@ -68,7 +71,7 @@
                              <tbody>
                               {% for seller in sellers %}
                                 <tr>
-                                   <td>#0{{seller.id}}</td>
+                                   
                                    <td>
                                     <div class="d-flex align-items-center">
                                    <img src="{{seller.photo.url}}" alt="" class="avatar avatar-xs rounded-circle" />
@@ -78,8 +81,29 @@
                                  </td>
                                    <td>{{seller.email}}</td>
                                     <td>{{seller.phone_no}}</td>
-                                   <td><a href="{% url 'delete_user' seller.id %}" class="btn btn-primary">Approve</a></td>
-                                   <td><a href="{% url 'approveSeller' seller.id %}" class="btn btn-danger">Disapprove</a></td>
+                                    <td>{{seller.GSTIN}}</td>
+                                    <td>{{seller.PancardNo}}</td>
+                                    <td>{{seller.bank_account_number}}</td>
+                                    <td>{{seller.ifsc_code}}</td>
+                                    <td>
+                                       <div class="dropdown" style="x-index: 5;position: absolute;">
+                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <i class="feather-icon icon-more-vertical fs-5"></i>
+                                          </a>
+                                          <ul class="dropdown-menu">
+                                             <li>
+                                                <a href="{% url 'approveSeller' seller.id %}" >Approve</a>
+                                   
+                                             </li>
+                                             <li>
+                                                <br>
+                                             </li>
+                                             <li>
+                                                <a href="{% url 'delete_user' seller.id %}" style="color: red;">Disapprove</a>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                                                              </tbody>

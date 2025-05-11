@@ -16,7 +16,7 @@ def common_data(request):
     if login:
         user_id = request.session.get("userid")
         user = User.objects.get(id=user_id)
-        cart_items = Cart.objects.filter(user=user)
+        cart_items = UserCart.objects.filter(user=user)
         cart_total = sum([item.price * item.quantity for item in cart_items])
         like_count = liked.objects.filter(user=user).count()
         cart_count = len(cart_items)

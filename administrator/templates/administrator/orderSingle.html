@@ -3,208 +3,210 @@ Home - FreshCart
 {%endblock %} {% block content %} {% load static %}
 
 
-       <main class="main-content-wrapper">
-        <!-- container -->
-        <div class="container">
-           <!-- row -->
-           <div class="row mb-8">
-              <div class="col-md-12">
-                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
-                    <div>
-                       <!-- page header -->
-                       <h2>Order Single</h2>
-                       <!-- breacrumb -->
-                       <nav aria-label="breadcrumb">
-                          <ol class="breadcrumb mb-0">
-                             <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                             <li class="breadcrumb-item active" aria-current="page">Order Single</li>
-                          </ol>
-                       </nav>
-                    </div>
-                    <!-- button -->
-                    <div>
-                       <a href="{% url 'order_list' %}" class="btn btn-primary">Back to all orders</a>
-                    </div>
-                 </div>
-              </div>
-           </div>
-           <!-- row -->
-           <div class="row">
-              <div class="col-xl-12 col-12 mb-5">
-                 <!-- card -->
-                 <div class="card h-100 card-lg">
-                    <div class="card-body p-6">
-                       <div class="d-md-flex justify-content-between">
-                          <div class="d-flex align-items-center mb-2 mb-md-0">
-                             <h2 class="mb-0">Order ID: #ORID{{ order.id }}</h2>
-                             <span class="ms-2">{% if order.status == 'delivered' %}
-                                <span class="badge bg-light-primary text-dark-primary">Success</span> 
-                         {% elif order.status == 'cancelled' %}
-                         <span class="badge bg-light-danger text-dark-danger">Cancel</span>
-                         {% else %}
-                         <span class="badge bg-light-warning text-dark-warning">Processing</span>
-                         {% endif %}</span>
-                          </div>
-                          <form action="" method="post">
+<main class="main-content-wrapper">
+   <!-- container -->
+   <div class="container">
+      <!-- row -->
+      <div class="row mb-8">
+         <div class="col-md-12">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+               <div>
+                  <!-- page header -->
+                  <h2>Order Single</h2>
+                  <!-- breacrumb -->
+                  <nav aria-label="breadcrumb">
+                     <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Order Single</li>
+                     </ol>
+                  </nav>
+               </div>
+               <!-- button -->
+               <div>
+                  <a href="{% url 'order_list' %}" class="btn btn-primary">Back to all orders</a>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- row -->
+      <div class="row">
+         <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+               <div class="card-body p-6">
+                  <div class="d-md-flex justify-content-between">
+                     <div class="d-flex align-items-center mb-2 mb-md-0">
+                        <h2 class="mb-0">Order ID: #ORID{{ order.id }}</h2>
+                        <span class="ms-2">{% if order.status == 'delivered' %}
+                           <span class="badge bg-light-primary text-dark-primary">Success</span> 
+                    {% elif order.status == 'cancelled' %}
+                    <span class="badge bg-light-danger text-dark-danger">Cancel</span>
+                    {% else %}
+                    <span class="badge bg-light-warning text-dark-warning">{{order.status}}</span>
+                    {% endif %}</span>
+                     </div>
+                     <form action="" method="post">
 
-                            {% csrf_token %}
-                          <!-- select option -->
-                          <div class="d-md-flex">
-                           
-                             <div class="mb-2 mb-md-0">
-                                <select name="status" class="form-select">
-                                   <option  value="delivered">Delivered</option>
-                                   <option value="processing">Processing</option>
-                                   <option value="cancelled">Cancelled</option>
-                                </select>
-                             </div>
-                             <!-- button -->
-                             <div class="ms-md-3">
-                                <button type="submit" class="btn btn-primary">Save</button>
-                                <a href="#" class="btn btn-secondary">Download Invoice</a>
-                             </div>
-                            </form>
-                          </div>
-                        
-                       </div>
-                       <div class="mt-8">
-                          <div class="row">
-                             <!-- address -->
-                             <div class="col-lg-4 col-md-4 col-12">
-                                <div class="mb-6">
-                                   <h6>Customer Details</h6>
-                                   <p class="mb-1 lh-lg">
-                                      {{order.buyer.name}}
-                                      <br />
-                                      {{order.buyer.email}}
-                                      <br />
-                                      {{order.buyer.phone_no}}
-                                   </p>
-                                </div>
-                             </div>
-                             <!-- address -->
-                             <div class="col-lg-4 col-md-4 col-12">
-                                <div class="mb-6">
-                                   <h6>Shipping Address</h6>
-                                   <p class="mb-1 lh-lg">
-                                      {{order.location.street}}, {{order.location.city}}
-                                      <br />
-                                      {{order.location.postal_code}}, {{order.location.state}}
-                                      <br />
-                                      India
-                                      <br />
-                                      Contact No. {{order.buyer.phone_no}}
-                                   </p>
-                                </div>
-                             </div>
-                             <!-- address -->
-                             <div class="col-lg-4 col-md-4 col-12">
-                                <div class="mb-6">
-                                   <h6>Order Details</h6>
-                                   <p class="mb-1 lh-lg">
-                                      Order ID:
-                                      <span class="text-dark">#ORID{{ order.id }}</span>
-                                      <br />
-                                      Order Date:
-                                      <span class="text-dark">{{ order.date_time }}</span>
-                                      <br />
-                                      Order Total:
-                                      <span class="text-dark"> ₹{{subTotal}}</span>
-                                   </p>
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="row">
-                       <div class="col-12">
-                          <div class="table-responsive">
-                             <!-- Table -->
-                             <table class="table mb-0 text-nowrap table-centered">
-                                <!-- Table Head -->
-                                <thead class="bg-light">
-                                   <tr>
-                                      <th>Products</th>
-                                      <th>Price</th>
-                                      <th>Quantity</th>
-                                      <th>Total</th>
-                                   </tr>
-                                </thead>
-                                <!-- tbody -->
-                                <tbody>
-                                   {% for item in other_orders %}
-                                   <tr>
-                                      <td>
-                                         <a href="{% url 'item' item.product.id %}" class="text-inherit">
-                                            <div class="d-flex align-items-center">
-                                               <div>
-                                                  <img src="{{ item.product.images.first.image.url }}" alt="" class="icon-shape icon-lg" />
-                                               </div>
-                                               <div class="ms-lg-4 mt-2 mt-lg-0">
-                                                  <h5 class="mb-0 h6">{{ item.product.name }}</h5>
-                                               </div>
-                                            </div>
-                                         </a>
-                                      </td>
-                                      <td><span class="text-body">₹{{item.price}}</span></td>
-                                      <td>{{item.quantity}}</td>
-                                      <td>₹{{item.subTotal}}</td>
-                                   </tr>
-                                   {% endfor %}
-                                   <tr>
-                                      <td class="border-bottom-0 pb-0"></td>
-                                      <td class="border-bottom-0 pb-0"></td>
-                                      <td colspan="1" class="fw-medium text-dark">
-                                         <!-- text -->
-                                         Sub Total :
-                                      </td>
-                                      <td class="fw-medium text-dark">
-                                         <!-- text -->
-                                         ₹{{order_total}}
-                                      </td>
-                                   </tr>
-                                   <tr>
-                                      <td class="border-bottom-0 pb-0"></td>
-                                      <td class="border-bottom-0 pb-0"></td>
-                                      <td colspan="1" class="fw-medium text-dark">
-                                         <!-- text -->
-                                         Shipping Cost
-                                      </td>
-                                      <td class="fw-medium text-dark">
-                                         <!-- text -->
-                                         ₹{{shipping}}
-                                      </td>
-                                   </tr>
+                       {% csrf_token %}
+                     <!-- select option -->
+                     <div class="d-md-flex">
+                     
+<div class="mb-2 mb-md-0">
+<select name="status" class="form-select">
+ <option {% if order.status == 'shipped' %} selected {% endif %} value="shipped">Shipped</option>
+ <option {% if order.status == 'processing' %} selected {% endif %} value="processing">Processing</option>
+ <option {% if order.status == 'cancelled' %} selected {% endif %} value="cancelled">Cancelled</option>
+ <option {% if order.status == 'delivered' %} selected {% endif %} value="delivered">Delivered</option>
+</select>
+</div>
 
-                                   <tr>
-                                      <td></td>
-                                      <td></td>
-                                      <td colspan="1" class="fw-semibold text-dark">
-                                         <!-- text -->
-                                         Grand Total
-                                      </td>
-                                      <td class="fw-semibold text-dark">
-                                         <!-- text -->
-                                         ₹{{subTotal}}
-                                      </td>
-                                   </tr>
-                                </tbody>
-                             </table>
-                          </div>
-                       </div>
-                    </div>
-                    <div class="card-body p-6">
-                       <div class="row">
-                          <div class="col-md-6 mb-4 mb-lg-0">
-                             <h6>Payment Info</h6>
-                             <span>{{ order.payment_method }}</span>
-                          </div>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </div>
-     </main>
-  </div>
-       {% endblock %}
+                        <!-- button -->
+                        <div class="ms-md-3">
+                           <button type="submit" class="btn btn-primary">Save</button>
+                          
+                        </div>
+                       </form>
+                     </div>
+                   
+                  </div>
+                  <div class="mt-8">
+                     <div class="row">
+                        <!-- address -->
+                        <div class="col-lg-4 col-md-4 col-12">
+                           <div class="mb-6">
+                              <h6>Customer Details</h6>
+                              <p class="mb-1 lh-lg">
+                                 {{order.buyer.name}}
+                                 <br />
+                                 {{order.buyer.email}}
+                                 <br />
+                                 {{order.buyer.phone_no}}
+                              </p>
+                           </div>
+                        </div>
+                        <!-- address -->
+                        <div class="col-lg-4 col-md-4 col-12">
+                           <div class="mb-6">
+                              <h6>Shipping Address</h6>
+                              <p class="mb-1 lh-lg">
+                                 {{order.location.street}}, {{order.location.city}}
+                                 <br />
+                                 {{order.location.postal_code}}, {{order.location.state}}
+                                 <br />
+                                 India
+                                 <br />
+                                 Contact No. {{order.buyer.phone_no}}
+                              </p>
+                           </div>
+                        </div>
+                        <!-- address -->
+                        <div class="col-lg-4 col-md-4 col-12">
+                           <div class="mb-6">
+                              <h6>Order Details</h6>
+                              <p class="mb-1 lh-lg">
+                                 Order ID:
+                                 <span class="text-dark">#ORID{{ order.id }}</span>
+                                 <br />
+                                 Order Date:
+                                 <span class="text-dark">{{ order.date_time }}</span>
+                                 <br />
+                                 Order Total:
+                                 <span class="text-dark"> ₹{{subTotal}}</span>
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-12">
+                     <div class="table-responsive">
+                        <!-- Table -->
+                        <table class="table mb-0 text-nowrap table-centered">
+                           <!-- Table Head -->
+                           <thead class="bg-light">
+                              <tr>
+                                 <th>Products</th>
+                                 <th>Price</th>
+                                 <th>Quantity</th>
+                                 <th>Total</th>
+                              </tr>
+                           </thead>
+                           <!-- tbody -->
+                           <tbody>
+                              {% for item in other_orders %}
+                              <tr>
+                                 <td>
+                                    <a href="" class="text-inherit">
+                                       <div class="d-flex align-items-center">
+                                          <div>
+                                             <img src="{{ item.product.images.first.image.url }}" alt="" class="icon-shape icon-lg" />
+                                          </div>
+                                          <div class="ms-lg-4 mt-2 mt-lg-0">
+                                             <h5 class="mb-0 h6">{{ item.product.name }}</h5>
+                                          </div>
+                                       </div>
+                                    </a>
+                                 </td>
+                                 <td><span class="text-body">₹{{item.price}}</span></td>
+                                 <td>{{item.quantity}}</td>
+                                 <td>₹{{item.subtotal}}</td>
+                              </tr>
+                              {% endfor %}
+                              <tr>
+                                 <td class="border-bottom-0 pb-0"></td>
+                                 <td class="border-bottom-0 pb-0"></td>
+                                 <td colspan="1" class="fw-medium text-dark">
+                                    <!-- text -->
+                                    Sub Total :
+                                 </td>
+                                 <td class="fw-medium text-dark">
+                                    <!-- text -->
+                                    ₹{{order_total}}
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td class="border-bottom-0 pb-0"></td>
+                                 <td class="border-bottom-0 pb-0"></td>
+                                 <td colspan="1" class="fw-medium text-dark">
+                                    <!-- text -->
+                                    Shipping Cost
+                                 </td>
+                                 <td class="fw-medium text-dark">
+                                    <!-- text -->
+                                    ₹{{shipping}}
+                                 </td>
+                              </tr>
+
+                              <tr>
+                                 <td></td>
+                                 <td></td>
+                                 <td colspan="1" class="fw-semibold text-dark">
+                                    <!-- text -->
+                                    Grand Total
+                                 </td>
+                                 <td class="fw-semibold text-dark">
+                                    <!-- text -->
+                                    ₹{{subTotal}}
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <div class="card-body p-6">
+                  <div class="row">
+                     <div class="col-md-6 mb-4 mb-lg-0">
+                        <h6>Payment Info</h6>
+                        <span>{{ order.payment_method }}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</main>
+</div>
+  {% endblock %}

@@ -1,0 +1,321 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   
+<!-- Mirrored from freshcart.codescandy.com/dashboard/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Nov 2024 06:08:49 GMT -->
+<head>
+      <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta content="Codescandy" name="author">
+      <title>Dashboard eCommerce HTML Template - FreshCart</title>
+      <!-- Favicon icon-->
+<link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon/favicon.ico' %}">
+
+<!-- Libs CSS -->
+<link href="{% static 'libs/bootstrap-icons/font/bootstrap-icons.min.css' %}" rel="stylesheet">
+<link href="{% static 'libs/feather-webfont/dist/feather-icons.css' %}" rel="stylesheet">
+<link href="{% static 'libs/simplebar/dist/simplebar.min.css' %}" rel="stylesheet">
+
+<!-- Theme CSS -->
+<link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
+<script>
+   window.dataLayer = window.dataLayer || [];
+   function gtag() {
+      dataLayer.push(arguments);
+   }
+   gtag("js", new Date());
+
+   gtag("config", "G-M8S4MT3EYG");
+</script>
+ <script type="text/javascript">
+   (function (c, l, a, r, i, t, y) {
+      c[a] =
+         c[a] ||
+         function () {
+            (c[a].q = c[a].q || []).push(arguments);
+         };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+   })(window, document, "clarity", "script", "kuc8w5o9nt");
+</script>
+
+   </head>
+
+   <body>
+      <!-- main wrapper -->
+
+      <!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-glass">
+	<div class="container-fluid">
+		<div class="d-flex justify-content-between align-items-center w-100">
+			<div class="d-flex align-items-center">
+				<a class="text-inherit d-block d-xl-none me-4" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+					<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-text-indent-right" viewBox="0 0 16 16">
+						<path
+							d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm10.646 2.146a.5.5 0 0 1 .708.708L11.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zM2 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+						/>
+					</svg>
+				</a>
+			</div>
+			<div>
+				<ul class="list-unstyled d-flex align-items-center mb-0 ms-5 ms-lg-0">
+					<li class="dropdown-center">
+						<a class="position-relative btn-icon btn-ghost-secondary btn rounded-circle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<i class="bi bi-bell fs-5"></i>
+							<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger mt-2 ms-n2">
+								2
+								<span class="visually-hidden">unread messages</span>
+							</span>
+						</a>
+						<div class="dropdown-menu dropdown-menu-end dropdown-menu-lg p-0 border-0">
+							<div class="border-bottom p-5 d-flex justify-content-between align-items-center">
+								<div>
+									<h5 class="mb-1">Notifications</h5>
+									<p class="mb-0 small">You have 2 unread messages</p>
+								</div>
+								<a href="#!" class="text-muted">
+									<a href="#" class="btn btn-ghost-secondary btn-icon rounded-circle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Mark all as read">
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-check2-all text-success" viewBox="0 0 16 16">
+											<path
+												d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"
+											/>
+											<path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z" />
+										</svg>
+									</a>
+								</a>
+							</div>
+							<div data-simplebar style="height: 250px">
+								<!-- List group -->
+								<ul class="list-group list-group-flush notification-list-scroll fs-6">
+									<!-- List group item -->
+
+									<!-- <li class="list-group-item px-5 py-4 list-group-item-action">
+										<a href="#!" class="text-muted">
+											<div class="d-flex">
+												<img src="{% static 'images/avatar/avatar-2.jpg' %}" alt="" class="avatar avatar-md rounded-circle" />
+												<div class="ms-4">
+													<p class="mb-1">
+														<span class="text-dark">You have new messages</span>
+														2 unread messages
+													</p>
+													<span>
+														<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-clock text-muted" viewBox="0 0 16 16">
+															<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+															<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+														</svg>
+														<small class="ms-2">3 days ago</small>
+													</span>
+												</div>
+											</div>
+										</a>
+									</li> -->
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li class="dropdown ms-4">
+						<a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="{{user.photo.url}}" alt="" class="avatar avatar-md rounded-circle" style="object-fit: cover;" />
+						</a>
+
+						<div class="dropdown-menu dropdown-menu-end p-0">
+							<div class="lh-1 px-5 py-4 border-bottom">
+								<h5 class="mb-1 h6">{{user.name}}</h5>
+								<small>{{user.email}}</small>
+							</div>
+
+							<ul class="list-unstyled px-2 py-3">
+								<li>
+									<a class="dropdown-item" href="{% url 'home' %}">Home</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{% url 'delSettings' %}">Profile</a>
+								</li>
+
+								<li>
+									<a class="dropdown-item" href="{% url 'delSettings' %}">Settings</a>
+								</li>
+							</ul>
+							<div class="border-top px-5 py-3">
+								<a href="{% url 'logout' %}">Log Out</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</nav>     {% if messages %}
+{% for message in messages %}
+<div id="alert-{{ forloop.counter }}" 
+style="position: fixed; z-index: 100; top: 15%; right: 20px; opacity: 0; transition: opacity 0.5s ease-in-out;" 
+class='alert 
+		{% if message.tags == "error" %}
+			alert-danger
+		{% elif message.tags == "success" %}
+		   alert-success
+		{% elif message.tags == "warning" %}
+			alert-warning
+		{% elif message.tags == "info" %}
+		  alert-info
+		{% else %}
+			alert-secondary
+		{% endif %}
+			 alert-dismissible fade show' 
+			role="alert">
+			{{ message }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				let alertBox = document.getElementById("alert-{{ forloop.counter }}");
+				setTimeout(() => alertBox.style.opacity = "1", 100); 
+				setTimeout(() => alertBox.style.opacity = "0", 3000); 
+				setTimeout(() => alertBox.remove(), 4500); 
+			});
+		</script>
+{% endfor %}
+{% endif %}
+
+
+      <div class="main-wrapper">
+         <!-- navbar vertical -->
+         <!-- navbar -->
+<nav class="navbar-vertical-nav d-none d-xl-block">
+	<div class="navbar-vertical">
+		<div class="px-4 py-5">
+			<a href="{% url 'home' %}" class="navbar-brand">
+				<img src="{% static 'images/logo/freshcart-logo.svg' %}" alt="" />
+			</a>
+		</div>
+		<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+			<ul class="navbar-nav flex-column" id="sideNavbar">
+				<li class="nav-item">
+					<a class="nav-link {% if current_page == 1 %}active{%endif%}" href="{% url 'agent_dashboard' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-house"></i></span>
+							<span class="nav-link-text">Dashboard</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item mt-6 mb-3">
+					<span class="nav-label">Agent Dashboard</span>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link  {% if current_page == 2 %}active{%endif%} " href="{% url 'findalldelivery' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-truck"></i></span>
+							<span class="nav-link-text">Find New Delivery</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {% if current_page == 3 %}active{%endif%}" href="{% url 'Mydeliveries' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
+							<span class="nav-link-text">My Deliveries</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a
+						class="nav-link  {% if current_page == 4 %}active{%endif%}"
+						href="{% url 'history' %}"
+						
+					>
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-clock"></i></span>
+							<span class="nav-link-text">Delivery History</span>
+						</div>
+					</a>
+					
+				</li>
+
+				
+				<!-- Nav item -->
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<nav class="navbar-vertical-nav offcanvas offcanvas-start navbar-offcanvac" tabindex="-1" id="offcanvasExample">
+	<div class="navbar-vertical">
+		<div class="px-4 py-5">
+			<a href="{% url 'home' %}" class="navbar-brand">
+				<img src="../assets/images/logo/freshcart-logo.svg" alt="" />
+			</a>
+		</div>
+		<div class="navbar-vertical-content flex-grow-1" data-simplebar="">
+			<ul class="navbar-nav flex-column" id="sideNavbar">
+				<li class="nav-item">
+					<a class="nav-link {% if current_page == 1 %}active{%endif%}" href="{% url 'agent_dashboard' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-house"></i></span>
+							<span class="nav-link-text">Dashboard</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item mt-6 mb-3">
+					<span class="nav-label">Store Managements</span>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link  {% if current_page == 2 %}active{%endif%} " href="{% url 'products_list' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-truck"></i></span>
+							<span class="nav-link-text">Find New Delivery</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link {% if current_page == 3 %}active{%endif%}" href="{% url 'category_list' %}">
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-list-task"></i></span>
+							<span class="nav-link-text">My Deliveries</span>
+						</div>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a
+						class="nav-link  {% if current_page == 4 %}active{%endif%}"
+						href="{% url 'order_list' %}"
+						
+					>
+						<div class="d-flex align-items-center">
+							<span class="nav-link-icon"><i class="bi bi-clock"></i></span>
+							<span class="nav-link-text">Delivery History</span>
+						</div>
+					</a>
+					
+				</li>
+
+			</ul>
+		</div>
+	</div>
+</nav>
+
+
+{% block content %}
+{% endblock %}
+
+</div>
+
+<!-- Libs JS -->
+<!-- <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script> -->
+<script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
+
+<!-- Theme JS -->
+<script src="{% static 'js/theme.min.js' %}"></script>
+
+<script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+<script src="{% static 'js/vendors/chart.js' %}"></script>
+</body>
+
+<!-- Mirrored from freshcart.codescandy.com/dashboard/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 14 Nov 2024 06:08:53 GMT -->
+</html>

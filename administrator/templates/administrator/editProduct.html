@@ -1,0 +1,231 @@
+{% extends 'administrator/baseDash.html' %}
+
+      {% block title %}Home - FreshCart{% endblock %}
+      
+      {% block content %}
+      {% load static %}
+<main class="main-content-wrapper">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row mb-8">
+      <div class="col-md-12">
+        <div class="d-md-flex justify-content-between align-items-center">
+          <!-- page header -->
+          <div>
+            <h2>Edit Product</h2>
+            <!-- breacrumb -->
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item">
+                  <a href="#" class="text-inherit">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item">
+                  <a href="#"  class="text-inherit active">Products</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  Edit Product
+                </li>
+              </ol>
+            </nav>
+          </div>
+          <!-- button -->
+          <div>
+            <a href="{% url 'allProducts' %}" class="btn btn-primary"
+              >Back to Product</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- row -->
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+      <div class="row">
+        <div class="col-lg-8 col-12">
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <h4 class="mb-4 h5">Product Information</h4>
+              <div class="row">
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Product name</label>
+                  <input
+                  value="{{ product.name }}"
+                    type="text"
+                    class="form-control"
+                    name="pname"
+                    placeholder="Product Name"
+                    required
+                  />
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Product Category</label>
+                  <select name="category" class="form-select" title="Select a product category">
+                    <option disabled selected>Select a category</option>
+                    <option>Product Category</option>
+                    {% for category in categories %} 
+                    <option {% if product.category.id == category.id %}selected{% endif %} value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Stock</label>
+                  <input
+                  value="{{ product.stock }}"
+                    type="number"
+                    name="stock"
+                    class="form-control"
+                    placeholder="stock"
+                    required
+                  />
+                </div>
+                <!-- input -->
+                <div class="mb-3 col-lg-6">
+                  <label class="form-label">Brand</label>
+                  <input
+                    value="{{ product.brand }}"
+                    type="text"
+                    name="brand"
+                    class="form-control"
+                    placeholder="Brand"
+                    required
+                  />
+                </div>
+                
+                <!-- input -->
+                <div class="mb-3 col-lg-12 mt-5">
+                  <h4 class="mb-3 h5">Product Descriptions</h4>
+                  <input
+                    value="{{ product.description }}"
+                    type="text"
+                    name="description"
+                    class="form-control"
+                    placeholder="Product Descriptions"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-12">
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <!-- input -->
+              <div class="form-check form-switch mb-4">
+                <input
+                  name="available"
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchStock"
+                  checked
+                />
+                <label class="form-check-label" for="flexSwitchStock"
+                  >Is available</label
+                >
+              </div>
+              <!-- input -->
+              <div>
+                <div class="mb-3">
+                  <label class="form-label">Product Code</label>
+                  <input
+                  value="{{ product.product_code }}"
+                    type="text"
+                    name="product_code"
+                    class="form-control"
+                    placeholder="Enter Product Code"
+                  />
+                </div>
+                <!-- input -->
+
+                <!-- input -->
+                <div class="mb-3">
+                  <label class="form-label" id="productSKU">Ingredient</label>
+                  <br />
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="inlineRadioOptions"
+                      id="inlineRadio1"
+                      value="veg"
+                      {% if product.is_veg %}checked{% endif %}
+                    />
+                    <label class="form-check-label" for="inlineRadio1"
+                      >Vegetarian</label
+                    >
+                  </div>
+                  <!-- input -->
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="inlineRadioOptions"
+                      id="inlineRadio2"
+                      value="non-veg"
+                      {% if not product.is_veg %}checked{% endif %}
+                    />
+                    <label class="form-check-label" for="inlineRadio2"
+                      >Non-Vegetarian</label
+                    >
+                  </div>
+                  <!-- input -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- card -->
+          <div class="card mb-6 card-lg">
+            <!-- card body -->
+            <div class="card-body p-6">
+              <h4 class="mb-4 h5">Product Price</h4>
+              <!-- input -->
+              <div class="mb-3">
+                <label class="form-label">Regular Price per weight</label> 
+{% for price in prices %}
+<div class="con" style="display: flex; padding-bottom: 5px">
+  <input
+    type="number"
+    name="p{{ forloop.counter }}"
+    class="form-control"
+    placeholder="RS 0.00"
+    style="padding-right: 5px"
+    value="{{ price.price }}"
+  />
+  <span style="padding: 0 5px"></span>
+  <input
+    type="text"
+    name="w{{ forloop.counter }}"
+    class="form-control"
+    placeholder="Weight"
+    value="{{ price.weight }}"
+  />
+</div>
+{% endfor %}
+
+              </div>
+            </div>
+          </div>
+          <!-- card -->
+
+          <!-- button -->
+          <div class="d-grid">
+            <button class="btn btn-primary" type="submit">
+              Edit Product
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script src="{% static 'libs/quill/dist/qui.js' %}"></script>
+  {% endblock %}
+</main>

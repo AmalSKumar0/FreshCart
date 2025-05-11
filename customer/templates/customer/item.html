@@ -29,23 +29,32 @@
           <div class="row">
              <div class="col-md-5 col-xl-6">
                 <div class="slider slider-for">
-                    {% for image in product.images.all %}
-                    <div style="width: 500px; height: 500px;">
-                        <div class="zoom" onmousemove="zoom(event)" style="background-image: url('{{ image.image.url }}');">
+                  <div class="col-md-5 col-xl-6">
+                     <div class="col-lg-8">
+                     <div class="product productModal" id="productModal">
+                        {% for image in product.images.all %}
+                        <div class="zoom" onmousemove="zoom(event)" style="background-image: url({{ image.image.url }})">
+                           <!-- img -->
                            <!-- img -->
                            <img src="{{ image.image.url }}" alt="" />
                         </div>
+                        {% endfor %}
                      </div>
-                    <a href="#!"><img src="" alt="" class="icon-shape icon-md" /></a>
-                    {% endfor %}
-                  
-                </div>
-                <div class="slider slider-nav mt-4">
-                    {% for image in product.images.all %}
-                   <div style="width: 100px; height: 100px; overflow: hidden;">
-                      <img src="{{ image.image.url }}" alt="" class="w-100 h-100 rounded" style="object-fit: cover;" />
-                   </div>
-                   {% endfor %}
+                     <!-- product tools -->
+                     <div class="product-tools">
+                        <div class="thumbnails row g-3" id="productModalThumbnails">
+                           {% for image in product.images.all %}
+                           <div class="col-3" {% if forloop.first %} class="tns-nav-active" {% endif %}>
+                              <div class="thumbnails-img">
+                                 <!-- img -->
+                                 <img src="{{ image.image.url }}" alt="" />
+                              </div>
+                           </div>
+                           {% endfor %}
+                        </div>
+                     </div>
+                     </div>
+                  </div>
                 </div>
              </div>
 
@@ -527,4 +536,19 @@
        </div>
     </section>
  </main>
+ <script src="{% static 'libs/rater-js/index.js' %}"></script>
+ <script src="{% static 'libs/dropzone/dist/min/dropzone.min.js' %}"></script>
+ <!-- Libs JS -->
+ <!-- <script src="../assets/libs/jquery/dist/jquery.min.js"></script> -->
+ <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+ <script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
+
+ <!-- Theme JS -->
+ <script src="{% static 'js/theme.min.js' %}"></script>
+
+ <script src="{% static 'js/vendors/jquery.min.js' %}"></script>
+ <script src="{% static 'libs/tiny-slider/dist/min/tiny-slider.js' %}"></script>
+ <script src="{% static 'js/vendors/tns-slider.js' %}"></script>
+ <script src="{% static 'js/vendors/zoom.js' %}"></script>
+ <script src="{% static 'js/vendors/dropzone.js' %}"></script>
 {% endblock %}

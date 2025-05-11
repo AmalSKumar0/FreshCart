@@ -1,0 +1,128 @@
+{% extends 'delivery/delbase.html' %} {% block title %}
+Home - FreshCart
+{%endblock %} {% block content %} {% load static %}
+
+       <main class="main-content-wrapper">
+        <!-- container -->
+        <div class="container">
+           <!-- row -->
+           <div class="row mb-8">
+              <div class="col-md-12">
+                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-4">
+                    <div>
+                       <!-- page header -->
+                       <h2>Delivery Details</h2>
+                       <!-- breacrumb -->
+                       <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb mb-0">
+                             <li class="breadcrumb-item"><a href="#" class="text-inherit">Delivery</a></li>
+                             <li class="breadcrumb-item active" aria-current="page">package details</li>
+                          </ol>
+                       </nav>
+                    </div>
+                    <!-- button -->
+                    <div>
+                       <a href="{% url 'Mydeliveries' %}" class="btn btn-primary">All Deliveries</a>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <!-- row -->
+           <div class="row">
+              <div class="col-xl-12 col-12 mb-5">
+                 <!-- card -->
+                 <div class="card h-100 card-lg">
+                    <div class="card-body p-6">
+                       <div class="d-md-flex justify-content-between">
+                          <div class="d-flex align-items-center mb-2 mb-md-0">
+                             <h2 class="mb-0">Order ID: #ORID{{ order.id }}</h2>
+                             <span class="ms-2">{% if order.status == 'delivered' %}
+                                <span class="badge bg-light-primary text-dark-primary">Success</span> 
+                         {% elif order.status == 'cancelled' %}
+                         <span class="badge bg-light-danger text-dark-danger">Cancel</span>
+                         {% else %}
+                         <span class="badge bg-light-warning text-dark-warning">{{order.status}}</span>
+                         {% endif %}</span>
+                          </div>
+                          <form action="" method="get">
+                          <div class="d-md-flex">
+                           
+                             <div class="mb-2 mb-md-0">
+                                <input
+                                  type="number"
+                                  class="form-control"
+                                  name="otp"
+                                  placeholder="Enter the OTP"
+                                  required
+                                />
+                             </div>
+                             <!-- button -->
+                             <div class="ms-md-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                                
+                             </div>
+                            </form>
+                          </div>
+                        
+                       </div>
+                       <div class="mt-8">
+                          <div class="row">
+                             <!-- address -->
+                             <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                   <h6>Customer Details</h6> for testing purpose OTP = {{order.delivery_otp}}
+                                   <p class="mb-1 lh-lg">
+                                      {{order.buyer.name}}
+                                      <br />
+                                      {{order.buyer.email}}
+                                      <br />
+                                      {{order.buyer.phone_no}}
+                                   </p>
+                                </div>
+                             </div>
+                             <!-- address -->
+                             <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                   <h6>Shipping Address</h6>
+                                   <p class="mb-1 lh-lg">
+                                      {{order.location.street}}, {{order.location.city}}
+                                      <br />
+                                      {{order.location.postal_code}}, {{order.location.state}}
+                                      <br />
+                                      India
+                                      <br />
+                                      Contact No. {{order.buyer.phone_no}}
+                                   </p>
+                                </div>
+                             </div>
+                             <!-- address -->
+                             <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                   <h6>Order Details</h6>
+                                   <p class="mb-1 lh-lg">
+                                      Order ID:
+                                      <span class="text-dark">#ORID{{ order.id }}</span>
+                                      <br />
+                                      Order Date:
+                                      <span class="text-dark">{{ order.date_time }}</span>
+                                      <br />
+                                      {% if payment == "cod" %}
+                                      Order Total:
+                                      <span class="text-dark"> ₹{{subTotal}}</span>
+                                      {% else %}
+                                      <span class="text-dark"> PAID </span>
+                                      {% endif %}
+                                   </p>
+                                </div>
+                             </div>
+                          </div>
+                          <a href="{% url 'cannotBeDelivered' order.id %}" class="btn btn-secondary">Cannot be delivered</a>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </main>
+  </div>
+       {% endblock %}

@@ -48,6 +48,7 @@
                        </div>
                     </div>
                     <!-- card body -->
+                     
                     <div class="card-body p-0">
                        <!-- table -->
                        <div class="table-responsive">
@@ -81,11 +82,26 @@
                                    <td>{{seller.orderCount}}</td>
                                    <td>{{seller.compCount}}</td>
                                    <td>
-                                    <a  href="{%url 'delete_user' customer.customer.id %}">
-                                       <i class="bi bi-trash me-3"></i>
-                                      
-                                   </a>
-                                   </td>
+                                    <div class="dropdown">
+                                       <a href="" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                          <i class="feather-icon icon-more-vertical fs-5"></i>
+                                       </a>
+                                       <ul class="dropdown-menu">
+                                          <li>
+                                             <a class="dropdown-item" href="{%url 'delete_user' seller.id %}">
+                                                <i class="bi bi-trash me-3"></i>
+                                                Delete
+                                             </a>
+                                          </li>
+                                          <li>
+                                             <a class="dropdown-item" href="{%url 'editVendor' seller.id %}">
+                                                <i class="bi bi-pencil-square me-3"></i>
+                                                Edit
+                                             </a>
+                                          </li>
+                                       </ul>
+                                    </div>
+                                 </td>
                                 </tr>
                                 {% endfor %}
                                                              </tbody>
